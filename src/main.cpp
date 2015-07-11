@@ -3,8 +3,9 @@
 #include <iostream>
 #include "SFMLUI.h"
 
-int test()
+int test(Button *button)
 {
+	button->properties.disabled = true;
 	std::cout << "button 1 released" << std::endl;
 	return 0;
 }
@@ -15,7 +16,7 @@ int main(int argc, char *argv[])
 	UI frame1(window, 100,100);
 	
 	frame1.addButton(10,10, 80, 50, NULL, NULL, NULL, test);
-	frame1.buttons.at(0)->properties.disabled = true;
+	//frame1.buttons.at(0)->properties.disabled = true;
 	
 	frame1.addButton(200,10, 80, 50);
 	

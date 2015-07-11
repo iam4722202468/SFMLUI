@@ -13,7 +13,7 @@ UI::UI(sf::RenderWindow& window, int x, int y) : window(window), x(x), y(y)
 	std::cout << "frame created" << std::endl;
 }
 
-void UI::addButton(int x_, int y_, int width, int height, int (*hoverEnterFunction)(), int (*hoverLeaveFunction)(), int (*clickDownFunction)(), int (*clickUpFunction)())
+void UI::addButton(int x_, int y_, int width, int height, int (*hoverEnterFunction)(Button *button), int (*hoverLeaveFunction)(Button *button), int (*clickDownFunction)(Button *button), int (*clickUpFunction)(Button *button))
 {
 	buttons.push_back(new Button(window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction));
 }

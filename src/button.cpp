@@ -6,7 +6,18 @@
 
 #include "button.h"
 
-Button::Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(), int (*hoverLeaveFunction)(), int (*clickDownFunction)(), int (*clickUpFunction)()) : window(window), xOrigin(xOrigin), yOrigin(yOrigin), x(x), y(y), width(width), height(height), hoverEnterFunction(hoverEnterFunction), hoverLeaveFunction(hoverLeaveFunction), clickDownFunction(clickDownFunction), clickUpFunction(clickUpFunction)
+Button::Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Button *button), int (*hoverLeaveFunction)(Button *button), int (*clickDownFunction)(Button *button), int (*clickUpFunction)(Button *button)) :
+	window(window),
+	xOrigin(xOrigin),
+	yOrigin(yOrigin),
+	x(x),
+	y(y),
+	width(width),
+	height(height),
+	hoverEnterFunction(hoverEnterFunction),
+	hoverLeaveFunction(hoverLeaveFunction),
+	clickDownFunction(clickDownFunction),
+	clickUpFunction(clickUpFunction)
 {
 	if (!buttonSheet.loadFromFile("resources/buttons.png", sf::IntRect(0, 0, 200, 400)))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
@@ -22,10 +33,10 @@ void Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 		{
 			if(!clicked)
 				if(clickDownFunction != NULL)
-					clickDownFunction();
+					clickDownFunction(this);
 			if(!hover)
 				if(hoverEnterFunction != NULL)
-					hoverEnterFunction();
+					hoverEnterFunction(this);
 			
 			hover = true;
 			clicked = true;
@@ -34,10 +45,10 @@ void Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 		{
 			if(clicked)
 				if(clickUpFunction != NULL)
-					clickUpFunction();
+					clickUpFunction(this);
 			if(!hover)
 				if(hoverEnterFunction != NULL)
-					hoverEnterFunction();
+					hoverEnterFunction(this);
 			
 			hover = true;
 			clicked = false;
@@ -46,7 +57,7 @@ void Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 		{
 			if(hover)
 				if(hoverLeaveFunction != NULL)
-					hoverLeaveFunction();
+					hoverLeaveFunction(this);
 			hover = false;
 			clicked = false;
 		}

@@ -12,7 +12,7 @@ class Button
 	sf::RenderWindow& window;
 	sf::Texture buttonSheet;
 	
-	public:
+public:
 	int &xOrigin, &yOrigin;
 	int x, y;
 	int height, width;
@@ -26,9 +26,12 @@ class Button
 		bool disabled = false;
 	} properties;
 	
-	int (*hoverEnterFunction)(), (*hoverLeaveFunction)(), (*clickDownFunction)(), (*clickUpFunction)();
+	int (*hoverEnterFunction)(Button *button);
+	int (*hoverLeaveFunction)(Button *button);
+	int (*clickDownFunction)(Button *button);
+	int (*clickUpFunction)(Button *button);
 	
-	Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(), int (*hoverLeaveFunction)(), int (*clickDownFunction)(), int (*clickUpFunction)());
+	Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Button *button), int (*hoverLeaveFunction)(Button *button), int (*clickDownFunction)(Button *button), int (*clickUpFunction)(Button *button));
 	void draw();
 	void checkmouse(int mouseX, int mouseY, bool mouseStatus);
 };
