@@ -3,10 +3,10 @@
 #include <vector>
 
 #include <SFML/Graphics.hpp>
-
+#include "SFMLUI.h"
 #include "button.h"
 
-Button::Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Button *button), int (*hoverLeaveFunction)(Button *button), int (*clickDownFunction)(Button *button), int (*clickUpFunction)(Button *button)) :
+Button::Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Button *button), int (*hoverLeaveFunction)(Button *button), int (*clickDownFunction)(Button *button), int (*clickUpFunction)(Button *button), UI *parent) :
 	window(window),
 	xOrigin(xOrigin),
 	yOrigin(yOrigin),
@@ -17,7 +17,8 @@ Button::Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int 
 	hoverEnterFunction(hoverEnterFunction),
 	hoverLeaveFunction(hoverLeaveFunction),
 	clickDownFunction(clickDownFunction),
-	clickUpFunction(clickUpFunction)
+	clickUpFunction(clickUpFunction),
+	parent(parent)
 {
 	if (!buttonSheet.loadFromFile("resources/buttons.png", sf::IntRect(0, 0, 200, 400)))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";

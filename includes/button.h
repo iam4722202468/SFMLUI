@@ -4,8 +4,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
 #include <SFML/Graphics.hpp>
+
+#include "SFMLUI.h"
 
 class Button
 {
@@ -20,6 +21,8 @@ public:
 	bool hover = false;
 	bool clicked = false;
 	
+	UI *parent;
+	
 	struct Properties
 	{
 		bool hidden = false;
@@ -31,7 +34,7 @@ public:
 	int (*clickDownFunction)(Button *button);
 	int (*clickUpFunction)(Button *button);
 	
-	Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Button *button), int (*hoverLeaveFunction)(Button *button), int (*clickDownFunction)(Button *button), int (*clickUpFunction)(Button *button));
+	Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Button *button), int (*hoverLeaveFunction)(Button *button), int (*clickDownFunction)(Button *button), int (*clickUpFunction)(Button *button), UI *parent);
 	void draw();
 	void checkmouse(int mouseX, int mouseY, bool mouseStatus);
 };
