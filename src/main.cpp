@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include "SFMLUI.h"
+#include "button.h"
+#include "checkbox.h"
 
 int test(Button *button)
 {

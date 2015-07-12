@@ -6,8 +6,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 
-#include "SFMLUI.h"
-
+class UI;
 class Button
 {
 	sf::RenderWindow& window;

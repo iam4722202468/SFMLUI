@@ -6,9 +6,9 @@
 #include <vector>
 
 #include <SFML/Graphics.hpp>
-#include "button.h"
-#include "checkbox.h"
 
+class Button;
+class Checkbox;
 class UI
 {
 	sf::RenderWindow& window;
