@@ -6,44 +6,16 @@
 #include <vector>
 
 #include <SFML/Graphics.hpp>
+#include "border.h"
 
 class Button;
 class Checkbox;
+
 class UI
 {
 	sf::RenderWindow& window;
-	sf::Texture borderSheet;
 	
-	struct BorderInfo {
-		int titleWidth;
-		int titleHeight;
-		
-		int borderWidth;
-		
-		int cornerSide;
-		int cornerSideY;
-		
-		struct CloseButton {
-			int x;
-			int y;
-			int width;
-			int height;
-		} closeButton;
-	} borderInfo;
-	
-	//sprites
-	sf::Sprite left;
-	sf::Sprite right;
-	sf::Sprite middle;
-	
-	sf::Sprite xButton;
-	sf::Sprite lCorner;
-	sf::Sprite rCorner;
-	sf::Sprite lBorder;
-	sf::Sprite rBorder;
-	sf::Sprite dBorder;
-	
-	sf::RectangleShape background;
+	Border border;
 	
 	public:
 	
@@ -54,16 +26,16 @@ class UI
 	int width = 700, height = 400;
 	bool clicked = false;
 	
-	int moveLockX, moveLockY;
-	int moveX, moveY;
+	bool hasBorder = false;
 	
 	UI(sf::RenderWindow& window, int x, int y);
 	void addButton(int posX, int posY, int width, int height, int (*hoverEnterFunction)(Button *button) = NULL, int (*hoverLeaveFunction)(Button *button) = NULL, int (*clickDownFunction)(Button *button) = NULL, int (*clickUpFunction)(Button *button) = NULL);
-	void addCheckbox(int posX, int posY, int width, int height, int (*hoverEnterFunction)() = NULL, int (*hoverLeaveFunction)() = NULL, int (*clickDownFunction)() = NULL, int (*clickUpFunction)() = NULL);
+	void addCheckbox(int posX, int posY, int width, int height, int (*hoverEnterFunction)(Checkbox *checkbox) = NULL, int (*hoverLeaveFunction)(Checkbox *checkbox) = NULL, int (*clickDownFunction)(Checkbox *checkbox) = NULL, int (*clickUpFunction)(Checkbox *checkbox) = NULL);
 	void draw();
-	void generateSprites();
-	void moveSprites();
-	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
+	
+	void setBorder();
+	
+	bool checkMouse(int mouseX, int mouseY, bool mouseStatus);
 };
 
 #endif

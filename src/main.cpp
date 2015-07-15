@@ -7,13 +7,14 @@
 #include "button.h"
 #include "checkbox.h"
 
-int test(Button *button)
+int test(Checkbox *checkbox)
 {
 	//same objects
-	button->properties.disabled = true;
-	button->parent->buttons.at(0)->properties.disabled = false;
+	if(checkbox->properties.checked)
+		checkbox->parent->hasBorder = true;
+	else
+		checkbox->parent->hasBorder = false;
 	
-	std::cout << "button 1 released" << std::endl;
 	return 0;
 }
 
@@ -25,16 +26,16 @@ int main(int argc, char *argv[])
 	
 	UI frame1(window, 200,100);
 	
-	frame1.addButton(10,50, 80, 40, NULL, NULL, NULL, test);
+	frame1.addButton(10,50, 80, 40);
 	//frame1.buttons.at(0)->properties.disabled = true;
 	
 	frame1.addButton(200,50, 80, 40);
 	
-	frame1.addCheckbox(300,90, 16,16);
+	frame1.addCheckbox(300,90, 16,16, NULL, NULL, NULL, test);
 	frame1.addCheckbox(320,90, 16,16);
 	
-	frame1.checkboxes.at(0)->properties.disabled = true;
-	frame1.checkboxes.at(0)->checked = true;
+	//frame1.checkboxes.at(0)->properties.disabled = true;
+	//frame1.checkboxes.at(0)->checked = true;
 	
 	frame1.addCheckbox(340,90, 16,16);
 	frame1.addCheckbox(360,90, 16,16);
@@ -56,17 +57,17 @@ int main(int argc, char *argv[])
 				window.close();
 			if (event.type == sf::Event::MouseMoved)
 			{
-				frame1.checkmouse(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, mouseLeftDown);
+				frame1.checkMouse(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, mouseLeftDown);
 			}
 			if (event.type == sf::Event::MouseButtonPressed)
 			{
 				mouseLeftDown = true;
-				frame1.checkmouse(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, mouseLeftDown);
+				frame1.checkMouse(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, mouseLeftDown);
 			}
 			if (event.type == sf::Event::MouseButtonReleased)
 			{
 				mouseLeftDown = false;
-				frame1.checkmouse(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, mouseLeftDown);
+				frame1.checkMouse(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, mouseLeftDown);
 			}
 				
 		}

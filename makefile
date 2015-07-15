@@ -5,10 +5,10 @@ CXXFLAGS += -I$(IDIR) -std=c++11 -g -lsfml-graphics -lsfml-window -lsfml-system
 ODIR = ./build
 CPPDIR = ./src
 
-_DEPS = main.h SFMLUI.h button.h checkbox.h
+_DEPS = main.h SFMLUI.h button.h checkbox.h border.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o SFMLUI.o button.o checkbox.o
+_OBJ = main.o SFMLUI.o button.o checkbox.o border.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(ODIR)/%.o: $(CPPDIR)/%.cpp $(DEPS)

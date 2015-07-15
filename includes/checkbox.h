@@ -23,17 +23,19 @@ class Checkbox
 	bool hover = false;
 	bool clicked = false;
 	
-	bool checked = false;
-	
 	struct Properties
 	{
 		bool hidden = false;
 		bool disabled = false;
+		bool checked = false;
 	} properties;
 	
-	int (*hoverEnterFunction)(), (*hoverLeaveFunction)(), (*clickDownFunction)(), (*clickUpFunction)();
+	int (*hoverEnterFunction)(Checkbox *checkbox);
+	int (*hoverLeaveFunction)(Checkbox *checkbox);
+	int (*clickDownFunction)(Checkbox *checkbox);
+	int (*clickUpFunction)(Checkbox *checkbox);
 	
-	Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(), int (*hoverLeaveFunction)(), int (*clickDownFunction)(), int (*clickUpFunction)(), UI *parent);
+	Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Checkbox *checkbox), int (*hoverLeaveFunction)(Checkbox *checkbox), int (*clickDownFunction)(Checkbox *checkbox), int (*clickUpFunction)(Checkbox *checkbox), UI *parent);
 	void draw();
 	void checkmouse(int mouseX, int mouseY, bool mouseStatus);
 };

@@ -6,7 +6,7 @@
 
 #include "checkbox.h"
 
-Checkbox::Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(), int (*hoverLeaveFunction)(), int (*clickDownFunction)(), int (*clickUpFunction)(), UI *parent) : 
+Checkbox::Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Checkbox *checkbox), int (*hoverLeaveFunction)(Checkbox *checkbox), int (*clickDownFunction)(Checkbox *checkbox), int (*clickUpFunction)(Checkbox *checkbox), UI *parent) : 
 	window(window), 
 	xOrigin(xOrigin), 
 	yOrigin(yOrigin), 
@@ -33,10 +33,10 @@ void Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 		{
 			if(!clicked)
 				if(clickDownFunction != NULL)
-					clickDownFunction();
+					clickDownFunction(this);
 			if(!hover)
 				if(hoverEnterFunction != NULL)
-					hoverEnterFunction();
+					hoverEnterFunction(this);
 			
 			hover = true;
 			clicked = true;
@@ -45,16 +45,16 @@ void Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 		{
 			if(clicked)
 			{
-				if(!checked)
-					checked = true;
+				if(!properties.checked)
+					properties.checked = true;
 				else
-					checked = false;
+					properties.checked = false;
 				if(clickUpFunction != NULL)
-					clickUpFunction();
+					clickUpFunction(this);
 			}
 			if(!hover)
 				if(hoverEnterFunction != NULL)
-					hoverEnterFunction();
+					hoverEnterFunction(this);
 			
 			hover = true;
 			clicked = false;
@@ -63,7 +63,7 @@ void Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 		{
 			if(hover)
 				if(hoverLeaveFunction != NULL)
-					hoverLeaveFunction();
+					hoverLeaveFunction(this);
 			hover = false;
 			clicked = false;
 		}
@@ -81,7 +81,7 @@ void Checkbox::draw()
 	
 	if(!properties.disabled)
 	{
-		if(!checked)
+		if(!properties.checked)
 		{
 			if(!hover && !clicked)
 				sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
@@ -102,7 +102,7 @@ void Checkbox::draw()
 	}
 	else
 	{
-		if(!checked)
+		if(!properties.checked)
 			sprite.setTextureRect(sf::IntRect(0, 600, 100, 100));
 		else
 			sprite.setTextureRect(sf::IntRect(0, 700, 100, 100));
