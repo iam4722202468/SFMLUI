@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 
+class UI;
 class Checkbox
 {
 	sf::RenderWindow& window;
@@ -16,6 +17,8 @@ class Checkbox
 	int &xOrigin, &yOrigin;
 	int x, y;
 	int height, width;
+	
+	UI *parent;
 	
 	bool hover = false;
 	bool clicked = false;
@@ -30,7 +33,7 @@ class Checkbox
 	
 	int (*hoverEnterFunction)(), (*hoverLeaveFunction)(), (*clickDownFunction)(), (*clickUpFunction)();
 	
-	Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(), int (*hoverLeaveFunction)(), int (*clickDownFunction)(), int (*clickUpFunction)());
+	Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(), int (*hoverLeaveFunction)(), int (*clickDownFunction)(), int (*clickUpFunction)(), UI *parent);
 	void draw();
 	void checkmouse(int mouseX, int mouseY, bool mouseStatus);
 };

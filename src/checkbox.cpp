@@ -6,7 +6,19 @@
 
 #include "checkbox.h"
 
-Checkbox::Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(), int (*hoverLeaveFunction)(), int (*clickDownFunction)(), int (*clickUpFunction)()) : window(window), xOrigin(xOrigin), yOrigin(yOrigin), x(x), y(y), width(width), height(height), hoverEnterFunction(hoverEnterFunction), hoverLeaveFunction(hoverLeaveFunction), clickDownFunction(clickDownFunction), clickUpFunction(clickUpFunction)
+Checkbox::Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(), int (*hoverLeaveFunction)(), int (*clickDownFunction)(), int (*clickUpFunction)(), UI *parent) : 
+	window(window), 
+	xOrigin(xOrigin), 
+	yOrigin(yOrigin), 
+	x(x), 
+	y(y), 
+	width(width), 
+	height(height), 
+	hoverEnterFunction(hoverEnterFunction), 
+	hoverLeaveFunction(hoverLeaveFunction), 
+	clickDownFunction(clickDownFunction), 
+	clickUpFunction(clickUpFunction),
+	parent(parent)
 {
 	if (!checkboxSheet.loadFromFile("resources/checkboxes.png", sf::IntRect(0, 0, 100, 800)))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
