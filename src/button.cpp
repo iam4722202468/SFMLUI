@@ -24,9 +24,21 @@ Button::Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int 
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
 	std::cout << "button created" << std::endl;
 	
+	sprite.setTexture(buttonSheet);
+	sprite.scale(width/200.0f, height/100.0f);
+	
+	text = new TextClass(window, width, height);
 }
 
-void Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
+void Button::setText(std::string text_, int place, int size, sf::Color colour)
+{
+	text->properties.text = text_;
+	text->properties.place = place;
+	text->properties.size = size;
+	text->properties.colour = colour;
+}
+
+bool Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
 	if(!properties.disabled)
 	{
@@ -39,6 +51,7 @@ void Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 				if(hoverEnterFunction != NULL)
 					hoverEnterFunction(this);
 			
+			focus = true;
 			hover = true;
 			clicked = true;
 		}
@@ -59,6 +72,8 @@ void Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 			if(hover)
 				if(hoverLeaveFunction != NULL)
 					hoverLeaveFunction(this);
+			if(mouseStatus)
+				focus = false;
 			hover = false;
 			clicked = false;
 		}
@@ -68,12 +83,11 @@ void Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 		hover = false;
 		clicked = false;
 	}
+	return focus;
 }
 
 void Button::draw()
 {
-	sf::Sprite sprite(buttonSheet);
-	
 	if(!properties.disabled)
 	{
 		if(!hover && !clicked)
@@ -87,8 +101,9 @@ void Button::draw()
 	{
 		sprite.setTextureRect(sf::IntRect(0, 300, 200, 100));
 	}
-	sprite.scale(width/200.0f, height/100.0f);
 	
 	sprite.setPosition(sf::Vector2f(x+xOrigin,y+yOrigin));
 	window.draw(sprite);
+	
+	text->draw(x+xOrigin, y+yOrigin);
 }

@@ -39,7 +39,7 @@ void Border::init(int x_, int y_, int width_, int height_)
 			if(counter == 0)
 			{
 				if(x == 0)
-					if(+borderImage.getPixel(x,y).r == 255 && +borderImage.getPixel(x,y).b == 255)
+					if(+borderImage.getPixel(x,y).r == 255 && +borderImage.getPixel(x,y).b == 255 && +borderImage.getPixel(x,y).g == 0)
 					{
 						borderInfo.titleHeight = y;
 						counter++;
@@ -49,7 +49,7 @@ void Border::init(int x_, int y_, int width_, int height_)
 			{
 				if(x == 0)
 					buttonInRow = false;
-				if(+borderImage.getPixel(x,y).r != 255 or borderImage.getPixel(x,y).b != 255 )
+				if(+borderImage.getPixel(x,y).r != 255 or borderImage.getPixel(x,y).b != 255 && +borderImage.getPixel(x,y).g == 0)
 				{
 					if(!foundButton)
 					{
@@ -85,7 +85,7 @@ void Border::init(int x_, int y_, int width_, int height_)
 			}
 			if(counter == 2)
 			{
-				if(+borderImage.getPixel(x,y).r == 255 && +borderImage.getPixel(x,y).b == 255 && x == 0)
+				if(+borderImage.getPixel(x,y).r == 255 && +borderImage.getPixel(x,y).b == 255 && +borderImage.getPixel(x,y).g == 0 && x == 0)
 				{
 					borderInfo.cornerSide = y - borderInfo.titleHeight*2;
 					borderInfo.cornerSideY = y - borderInfo.cornerSide;

@@ -4,6 +4,8 @@
 class Border
 {
 	sf::Texture borderSheet;
+	sf::Font font;
+	sf::Text text;
 	
 	public:
 	
@@ -33,7 +35,7 @@ class Border
 		int titleHeight;
 		
 		int borderWidth;
-			
+		
 		int cornerSide;
 		int cornerSideY;
 		

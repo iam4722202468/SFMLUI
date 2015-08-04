@@ -6,17 +6,23 @@
 #include <vector>
 
 #include <SFML/Graphics.hpp>
+#include "details.h"
 
 class UI;
 class Checkbox
 {
 	sf::RenderWindow& window;
 	sf::Texture checkboxSheet;
+	sf::Sprite sprite;
 	
 	public:
 	int &xOrigin, &yOrigin;
 	int x, y;
 	int height, width;
+	
+	bool focus = false;
+	
+	TextClass *text;
 	
 	UI *parent;
 	
@@ -36,8 +42,10 @@ class Checkbox
 	int (*clickUpFunction)(Checkbox *checkbox);
 	
 	Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Checkbox *checkbox), int (*hoverLeaveFunction)(Checkbox *checkbox), int (*clickDownFunction)(Checkbox *checkbox), int (*clickUpFunction)(Checkbox *checkbox), UI *parent);
+	
 	void draw();
-	void checkmouse(int mouseX, int mouseY, bool mouseStatus);
+	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
+	void setText(std::string text, int place = 9, int size = 14, sf::Color colour = sf::Color::Black);
 };
 
 #endif

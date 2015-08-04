@@ -23,9 +23,22 @@ Checkbox::Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, 
 	if (!checkboxSheet.loadFromFile("resources/checkboxes.png", sf::IntRect(0, 0, 100, 800)))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
 	std::cout << "checkbox created" << std::endl;
+	
+	sprite.setTexture(checkboxSheet);
+	sprite.scale(width/100.0f, height/100.0f);
+	
+	text = new TextClass(window, width, height);
 }
 
-void Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
+void Checkbox::setText(std::string text_, int place, int size, sf::Color colour)
+{
+	text->properties.text = text_;
+	text->properties.place = place;
+	text->properties.size = size;
+	text->properties.colour = colour;
+}
+
+bool Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
 	if(!properties.disabled)
 	{
@@ -38,6 +51,7 @@ void Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 				if(hoverEnterFunction != NULL)
 					hoverEnterFunction(this);
 			
+			focus = true;
 			hover = true;
 			clicked = true;
 		}
@@ -66,6 +80,9 @@ void Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 					hoverLeaveFunction(this);
 			hover = false;
 			clicked = false;
+			
+			if(mouseStatus)
+				focus = false;
 		}
 	}
 	else
@@ -73,12 +90,11 @@ void Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 		hover = false;
 		clicked = false;
 	}
+	return focus;
 }
 
 void Checkbox::draw()
 {
-	sf::Sprite sprite(checkboxSheet);
-	
 	if(!properties.disabled)
 	{
 		if(!properties.checked)
@@ -107,9 +123,8 @@ void Checkbox::draw()
 		else
 			sprite.setTextureRect(sf::IntRect(0, 700, 100, 100));
 	}
-	
-	sprite.scale(width/100.0f, height/100.0f);
-	
 	sprite.setPosition(sf::Vector2f(x+xOrigin,y+yOrigin));
+	
 	window.draw(sprite);
+	text->draw(x+xOrigin, y+yOrigin);
 }
