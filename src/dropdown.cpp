@@ -270,7 +270,7 @@ void Item::draw(Dropdown *parent)
 	
 	if(clicked)
 		rectangle.setFillColor(parent->dropdownSprites.itemSprites.click);
-	else if(hover && !selected)
+	else if(hover)
 		rectangle.setFillColor(parent->dropdownSprites.itemSprites.hover);
 	else if(selected)
 		rectangle.setFillColor(parent->dropdownSprites.itemSprites.selected);
@@ -325,26 +325,38 @@ int Item::checkmouse(Dropdown *parent, int mouseX, int mouseY, bool mouseStatus)
 //0 hover in, 1 hover out, 2 click down, 3 click up
 bool Dropdown::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
-	
 	if(mouseX > x + xOrigin && 
 	mouseX < x + xOrigin + width && 
 	mouseY > y + yOrigin + sheetInfo.corner.y &&
 	mouseY < y + yOrigin + height + sheetInfo.corner.y)
 	{
-		if(clicked && !mouseStatus)
+		if(mouseStatus && !clicked)
 		{
-			dropdown = !dropdown;
-			clicked = false;
-		}
-		else if(mouseStatus)
-		{
+			focus = !focus;
 			clicked = true;
-			focus = true;
+			if(focus)
+				for(int place = 0; place < items.size(); place++)
+				{
+					items.at(place)->hover = false;
+					items.at(place)->clicked = false;
+				}
 		}
+		else if(!mouseStatus)
+			clicked = false;
 	}
 	else
+	{
 		if(mouseStatus)
 			focus = false;
+		clicked = false;
+	}
+	
+	if(mouseStatus && !clicked && dropdown && 
+	mouseX > x + xOrigin && 
+	mouseX < x + xOrigin + width  && 
+	mouseY > y + yOrigin + sheetInfo.corner.y &&
+	mouseY < y + yOrigin + height + sheetInfo.corner.y + items.size()*sheetInfo.itemSize)
+		focus = true;
 	
 	if(dropdown)
 		for(int place = 0; place < items.size(); place++)
@@ -362,13 +374,17 @@ bool Dropdown::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 				case 2:
 					if(clickDownFunction != NULL)
 						clickDownFunction(this);
-					setText(items.at(place)->label);
-					dropdown = false;
 					focus = true;
 				break;
 				case 3:
 					if(clickUpFunction != NULL)
 						clickUpFunction(this);
+					setText(items.at(place)->label);
+					focus = false;
+					
+					for(int place_ = 0; place_ < items.size(); place_++)
+						items.at(place_)->selected = false;
+					items.at(place)->selected = true;
 				break;
 				default: break;
 			}
@@ -405,6 +421,8 @@ void Dropdown::draw()
 	
 	if(!focus)
 		dropdown = false;
+	else
+		dropdown = true;
 	
 	if(dropdown)
 		for(int place = 0; place < items.size(); place++)
