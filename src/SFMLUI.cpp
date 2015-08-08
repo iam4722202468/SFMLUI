@@ -9,6 +9,9 @@
 #include "checkbox.h"
 #include "dropdown.h"
 #include "border.h"
+#include "textbox.h"
+#include "radiobutton.h"
+#include "label.h"
 
 UI::UI(sf::RenderWindow& window, int x, int y) : window(window), x(x), y(y)
 {
@@ -45,6 +48,21 @@ void UI::addDropdown(int x_, int y_, int width, int height, int (*hoverEnterFunc
 	dropdowns.push_back(new Dropdown(window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this));
 }
 
+void UI::addTextbox(int x_, int y_, int width, int height, int (*hoverEnterFunction)(Textbox *textbox), int (*hoverLeaveFunction)(Textbox *textbox), int (*clickDownFunction)(Textbox *textbox), int (*clickUpFunction)(Textbox *textbox))
+{
+	textboxes.push_back(new Textbox(window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this));
+}
+
+void UI::addRadiobutton(int x_, int y_, int width, int height, int (*hoverEnterFunction)(Radiobutton *radiobutton), int (*hoverLeaveFunction)(Radiobutton *radiobutton), int (*clickDownFunction)(Radiobutton *radiobutton), int (*clickUpFunction)(Radiobutton *radiobutton))
+{
+	radiobuttons.push_back(new Radiobutton(window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this));
+}
+
+void UI::addLabel(int x_, int y_, int width, int height, std::string text_, int place, int size, sf::Color colour)
+{
+	labels.push_back(new Label(window, x, y, x_, y_, width, height, this, text_, place, size, colour));
+}
+
 void UI::draw()
 {
 	if(hasBorder)
@@ -70,6 +88,26 @@ void UI::draw()
 		checkboxes.at(place)->draw();
 	for(int place = 0; place < dropdowns.size(); place++)
 		dropdowns.at(place)->draw();
+	for(int place = 0; place < textboxes.size(); place++)
+		textboxes.at(place)->draw();
+	for(int place = 0; place < radiobuttons.size(); place++)
+		radiobuttons.at(place)->draw();
+	for(int place = 0; place < labels.size(); place++)
+		labels.at(place)->draw();
+}
+
+void UI::checkKey(sf::Event::KeyEvent keyInfo)
+{
+	//for(int place = 0; place < buttons.size(); place++)
+	//	buttons.at(place)->checkKey(keyInfo);
+	//for(int place = 0; place < checkboxes.size(); place++)
+	//	checkboxes.at(place)->checkKey(KeyInfo);
+	//for(int place = 0; place < dropdowns.size(); place++)
+	//	dropdowns.at(place)->checkKey(KeyInfo);
+	for(int place = 0; place < textboxes.size(); place++)
+		textboxes.at(place)->checkKey(keyInfo);
+	//for(int place = 0; place < textboxes.size(); place++)
+	//	radiobuttons.at(place)->checkKey(keyInfo);
 }
 
 bool UI::checkMouse(int mouseX, int mouseY, bool mouseStatus)
@@ -85,8 +123,14 @@ bool UI::checkMouse(int mouseX, int mouseY, bool mouseStatus)
 	for(int place = 0; place < dropdowns.size(); place++)
 		if(dropdowns.at(place)->checkmouse(mouseX, mouseY, mouseStatus))
 			infocus = 3;
+	for(int place = 0; place < textboxes.size(); place++)
+		if(textboxes.at(place)->checkmouse(mouseX, mouseY, mouseStatus))
+			infocus = 4;
+	for(int place = 0; place < radiobuttons.size(); place++)
+		if(radiobuttons.at(place)->checkmouse(mouseX, mouseY, mouseStatus))
+			infocus = 5;
 	
-	/*		
+	/*
 	if(mouseStatus)
 		if(infocus == 0)
 			std::cout << "nothing infocus" << std::endl;
@@ -98,7 +142,7 @@ bool UI::checkMouse(int mouseX, int mouseY, bool mouseStatus)
 			std::cout << "dropdown infocus" << std::endl;
 	*/
 	
-	if(hasBorder && border.checkMouse(mouseX, mouseY, mouseStatus))
+	if(moveable && hasBorder && border.checkMouse(mouseX, mouseY, mouseStatus))
 	{
 		x = border.x;
 		y = border.y;

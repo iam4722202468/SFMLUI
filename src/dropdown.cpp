@@ -56,9 +56,19 @@ Dropdown::Dropdown(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, 
 				{
 					if(!variable)
 					{
-						dropdownSprites.left.setTexture(dropdownSheet);
-						dropdownSprites.right.setTexture(dropdownSheet);
-						dropdownSprites.middle.setTexture(dropdownSheet);
+						dropdownSprites.nothing.left.setTexture(dropdownSheet);
+						dropdownSprites.nothing.right.setTexture(dropdownSheet);
+						dropdownSprites.nothing.middle.setTexture(dropdownSheet);
+						dropdownSprites.hover.left.setTexture(dropdownSheet);
+						dropdownSprites.hover.right.setTexture(dropdownSheet);
+						dropdownSprites.hover.middle.setTexture(dropdownSheet);
+						dropdownSprites.click.left.setTexture(dropdownSheet);
+						dropdownSprites.click.right.setTexture(dropdownSheet);
+						dropdownSprites.click.middle.setTexture(dropdownSheet);
+						dropdownSprites.disabled.left.setTexture(dropdownSheet);
+						dropdownSprites.disabled.right.setTexture(dropdownSheet);
+						dropdownSprites.disabled.middle.setTexture(dropdownSheet);
+						
 						dropdownSprites.button.setTexture(dropdownSheet);
 						dropdownSprites.corner.setTexture(dropdownSheet);
 						dropdownSprites.edge.setTexture(dropdownSheet);
@@ -66,31 +76,54 @@ Dropdown::Dropdown(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, 
 						x2 = x;
 					}
 					
-					if(x == dropdownImage.getSize().x && emptyRow)
+					if(x == dropdownImage.getSize().x-1 && emptyRow)
 					{
 						y2 = y;
-						dropdownSprites.left.setTextureRect(sf::IntRect(0, 0, x2, y2));
+						dropdownSprites.nothing.left.setTextureRect(sf::IntRect(0, 0, x2, y2));
 							sheetInfo.left.width = x2;
 							sheetInfo.left.height = y2;
-							dropdownSprites.left.scale(1.f, float(height)/y);
-							
-						dropdownSprites.right.setTextureRect(sf::IntRect(lastblank+1, 0, dropdownImage.getSize().x - lastblank, y2));
+							dropdownSprites.nothing.left.scale(1.f, float(height)/y);
+						
+						dropdownSprites.hover.left.setTextureRect(sf::IntRect(0, y2 + 1, x2, y2));
+						dropdownSprites.click.left.setTextureRect(sf::IntRect(0, y2*2 + 2, x2, y2));
+						dropdownSprites.disabled.left.setTextureRect(sf::IntRect(0, y2*3 + 3, x2, y2));
+						dropdownSprites.hover.left.scale(1.f, float(height)/y);
+						dropdownSprites.click.left.scale(1.f, float(height)/y);
+						dropdownSprites.disabled.left.scale(1.f, float(height)/y);
+						
+						dropdownSprites.nothing.right.setTextureRect(sf::IntRect(lastblank+1, 0, dropdownImage.getSize().x - lastblank, y2));
 							sheetInfo.right.width = dropdownImage.getSize().x - lastblank;
 							sheetInfo.right.height = y2;
-							dropdownSprites.right.scale(1.f, float(height)/y);
+							dropdownSprites.nothing.right.scale(1.f, float(height)/y);
 							
-						dropdownSprites.middle.setTextureRect(sf::IntRect(x2+2, 0, 1, y2));
+						dropdownSprites.hover.right.setTextureRect(sf::IntRect(lastblank+1, y2 + 1, dropdownImage.getSize().x - lastblank, y2));
+						dropdownSprites.click.right.setTextureRect(sf::IntRect(lastblank+1, y2*2 + 2, dropdownImage.getSize().x - lastblank, y2));
+						dropdownSprites.disabled.right.setTextureRect(sf::IntRect(lastblank+1, y2*3 + 3, dropdownImage.getSize().x - lastblank, y2));
+						dropdownSprites.hover.right.scale(1.f, float(height)/y);
+						dropdownSprites.click.right.scale(1.f, float(height)/y);
+						dropdownSprites.disabled.right.scale(1.f, float(height)/y);
+						
+						dropdownSprites.nothing.middle.setTextureRect(sf::IntRect(x2+2, 0, 1, y2));
 							sheetInfo.middle.width = width - sheetInfo.right.width - sheetInfo.left.width;
 							sheetInfo.middle.height = y2;
-							dropdownSprites.middle.scale(sheetInfo.middle.width/1.f, float(height)/y);
+							dropdownSprites.nothing.middle.scale(sheetInfo.middle.width/1.f, float(height)/y);
+						
+						dropdownSprites.hover.middle.setTextureRect(sf::IntRect(x2+2, y2 + 1, 1, y2));
+						dropdownSprites.click.middle.setTextureRect(sf::IntRect(x2+2, y2*2 + 2, 1, y2));
+						dropdownSprites.disabled.middle.setTextureRect(sf::IntRect(x2+2, y2*3 + 3, 1, y2));
+						dropdownSprites.hover.middle.scale(sheetInfo.middle.width/1.f, float(height)/y);
+						dropdownSprites.click.middle.scale(sheetInfo.middle.width/1.f, float(height)/y);
+						dropdownSprites.disabled.middle.scale(sheetInfo.middle.width/1.f, float(height)/y);
 						
 						counter++;
+						
+						y += y2*3 + 3;
 						
 						variable = false;
 						lastblank = 0;
 					}
 					
-					if(lastblank < x && !emptyRow && x < dropdownImage.getSize().x)
+					if(lastblank < x && !emptyRow && x < dropdownImage.getSize().x-1)
 						lastblank = x;
 					
 				}
@@ -132,15 +165,16 @@ Dropdown::Dropdown(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, 
 			}
 			else if(counter == 2)
 			{
-				if(y == sheetInfo.left.height*2 && x == 0)
+				if(y == sheetInfo.left.height*5 && x == 0)
 				{
+					y += 3;
 					dropdownSprites.itemSprites.nothing.r = +dropdownImage.getPixel(x,y).r; dropdownSprites.itemSprites.nothing.g = +dropdownImage.getPixel(x,y).g; dropdownSprites.itemSprites.nothing.b = +dropdownImage.getPixel(x,y).b;
 					dropdownSprites.itemSprites.hover.r = +dropdownImage.getPixel(x+1,y).r; dropdownSprites.itemSprites.hover.g = +dropdownImage.getPixel(x+1,y).g; dropdownSprites.itemSprites.hover.b = +dropdownImage.getPixel(x+1,y).b;
 					dropdownSprites.itemSprites.click.r = +dropdownImage.getPixel(x+2,y).r; dropdownSprites.itemSprites.click.g = +dropdownImage.getPixel(x+2,y).g; dropdownSprites.itemSprites.click.b = +dropdownImage.getPixel(x+2,y).b;
 					dropdownSprites.itemSprites.divider.r = +dropdownImage.getPixel(x+3,y).r; dropdownSprites.itemSprites.divider.g = +dropdownImage.getPixel(x+3,y).g; dropdownSprites.itemSprites.divider.b = +dropdownImage.getPixel(x+3,y).b;
 					dropdownSprites.itemSprites.selected.r = +dropdownImage.getPixel(x+4,y).r; dropdownSprites.itemSprites.selected.g = +dropdownImage.getPixel(x+4,y).g; dropdownSprites.itemSprites.selected.b = +dropdownImage.getPixel(x+4,y).b;
 				}
-				if(y == sheetInfo.left.height*2+2)
+				if(y == sheetInfo.left.height*5+5)
 				{
 					counter++;
 					variable = false;
@@ -325,70 +359,75 @@ int Item::checkmouse(Dropdown *parent, int mouseX, int mouseY, bool mouseStatus)
 //0 hover in, 1 hover out, 2 click down, 3 click up
 bool Dropdown::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
-	if(mouseX > x + xOrigin && 
-	mouseX < x + xOrigin + width && 
-	mouseY > y + yOrigin + sheetInfo.corner.y &&
-	mouseY < y + yOrigin + height + sheetInfo.corner.y)
+	if(!properties.disabled && !properties.hidden)
 	{
-		if(mouseStatus && !clicked)
+		if(mouseX > x + xOrigin && 
+		mouseX < x + xOrigin + width && 
+		mouseY > y + yOrigin + sheetInfo.corner.y &&
+		mouseY < y + yOrigin + height + sheetInfo.corner.y)
 		{
-			focus = !focus;
-			clicked = true;
-			if(focus)
-				for(int place = 0; place < items.size(); place++)
-				{
-					items.at(place)->hover = false;
-					items.at(place)->clicked = false;
-				}
-		}
-		else if(!mouseStatus)
-			clicked = false;
-	}
-	else
-	{
-		if(mouseStatus)
-			focus = false;
-		clicked = false;
-	}
-	
-	if(mouseStatus && !clicked && dropdown && 
-	mouseX > x + xOrigin && 
-	mouseX < x + xOrigin + width  && 
-	mouseY > y + yOrigin + sheetInfo.corner.y &&
-	mouseY < y + yOrigin + height + sheetInfo.corner.y + items.size()*sheetInfo.itemSize)
-		focus = true;
-	
-	if(dropdown)
-		for(int place = 0; place < items.size(); place++)
-		{
-			switch(items.at(place)->checkmouse(this, mouseX, mouseY, mouseStatus))
+			hover = true;
+			if(mouseStatus && !clicked)
 			{
-				case 0:
-					if(hoverEnterFunction != NULL)
-						hoverEnterFunction(this);
-				break;
-				case 1:
-					if(hoverLeaveFunction != NULL)
-						hoverLeaveFunction(this);
-				break;
-				case 2:
-					if(clickDownFunction != NULL)
-						clickDownFunction(this);
-					focus = true;
-				break;
-				case 3:
-					if(clickUpFunction != NULL)
-						clickUpFunction(this);
-					setText(items.at(place)->label);
-					focus = false;
-					
-					for(int place_ = 0; place_ < items.size(); place_++)
-						items.at(place_)->selected = false;
-					items.at(place)->selected = true;
-				break;
-				default: break;
+				focus = !focus;
+				clicked = true;
+				if(focus)
+					for(int place = 0; place < items.size(); place++)
+					{
+						items.at(place)->hover = false;
+						items.at(place)->clicked = false;
+					}
 			}
+			else if(!mouseStatus)
+				clicked = false;
 		}
+		else
+		{
+			if(mouseStatus)
+				focus = false;
+			clicked = false;
+			hover = false;
+		}
+		
+		if(mouseStatus && !clicked && dropdown && 
+		mouseX > x + xOrigin && 
+		mouseX < x + xOrigin + width  && 
+		mouseY > y + yOrigin + sheetInfo.corner.y &&
+		mouseY < y + yOrigin + height + sheetInfo.corner.y + items.size()*sheetInfo.itemSize)
+			focus = true;
+		
+		if(dropdown)
+			for(int place = 0; place < items.size(); place++)
+			{
+				switch(items.at(place)->checkmouse(this, mouseX, mouseY, mouseStatus))
+				{
+					case 0:
+						if(hoverEnterFunction != NULL)
+							hoverEnterFunction(this);
+					break;
+					case 1:
+						if(hoverLeaveFunction != NULL)
+							hoverLeaveFunction(this);
+					break;
+					case 2:
+						if(clickDownFunction != NULL)
+							clickDownFunction(this);
+						focus = true;
+					break;
+					case 3:
+						if(clickUpFunction != NULL)
+							clickUpFunction(this);
+						setText(items.at(place)->label);
+						focus = false;
+						
+						for(int place_ = 0; place_ < items.size(); place_++)
+							items.at(place_)->selected = false;
+						items.at(place)->selected = true;
+					break;
+					default: break;
+				}
+			}
+	}
 	return focus;
 }
 
@@ -407,14 +446,49 @@ void Dropdown::setText(std::string text_, int place, int size, sf::Color colour)
 
 void Dropdown::draw()
 {
-	dropdownSprites.left.setPosition(sf::Vector2f(x+xOrigin, y+yOrigin));
-	dropdownSprites.middle.setPosition(sf::Vector2f(x+xOrigin+sheetInfo.left.width, y+yOrigin));
-	dropdownSprites.right.setPosition(sf::Vector2f(x+xOrigin + width - sheetInfo.right.width, y+yOrigin));
+	
+	sf::Sprite *leftSprite;
+	sf::Sprite *middleSprite;
+	sf::Sprite *rightSprite;
+	
+	if(properties.disabled)
+	{
+		leftSprite = &dropdownSprites.disabled.left;
+		middleSprite = &dropdownSprites.disabled.middle;
+		rightSprite = &dropdownSprites.disabled.right;
+	}
+	else if(clicked || focus)
+	{
+		leftSprite = &dropdownSprites.click.left;
+		middleSprite = &dropdownSprites.click.middle;
+		rightSprite = &dropdownSprites.click.right;
+	}
+	else if(hover)
+	{
+		leftSprite = &dropdownSprites.hover.left;
+		middleSprite = &dropdownSprites.hover.middle;
+		rightSprite = &dropdownSprites.hover.right;
+	}
+	else
+	{
+		leftSprite = &dropdownSprites.nothing.left;
+		middleSprite = &dropdownSprites.nothing.middle;
+		rightSprite = &dropdownSprites.nothing.right;
+	}
+	
+	leftSprite->setPosition(sf::Vector2f(x+xOrigin, y+yOrigin));
+	middleSprite->setPosition(sf::Vector2f(x+xOrigin+sheetInfo.left.width, y+yOrigin));
+	rightSprite->setPosition(sf::Vector2f(x+xOrigin + width - sheetInfo.right.width, y+yOrigin));
+	
 	dropdownSprites.button.setPosition(sf::Vector2f(x+xOrigin+sheetInfo.button.x, y+yOrigin+sheetInfo.button.y));
 	
-	window.draw(dropdownSprites.left);
-	window.draw(dropdownSprites.middle);
-	window.draw(dropdownSprites.right);
+	if(!properties.hidden)
+	{
+		window.draw(*leftSprite);
+		window.draw(*middleSprite);
+		window.draw(*rightSprite);
+	}
+	
 	window.draw(dropdownSprites.button);
 	
 	text->draw(x+xOrigin+5, y+yOrigin);
@@ -424,7 +498,7 @@ void Dropdown::draw()
 	else
 		dropdown = true;
 	
-	if(dropdown)
+	if(dropdown && !properties.disabled && !properties.hidden)
 		for(int place = 0; place < items.size(); place++)
 			items.at(place)->draw(this);
 }

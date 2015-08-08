@@ -60,13 +60,38 @@ class Dropdown
 	
 	struct DropdownSprites
 	{
-		sf::Sprite left;
-		sf::Sprite right;
-		sf::Sprite middle;
 		sf::Sprite button;
 		
 		sf::Sprite corner;
 		sf::Sprite edge;
+		
+		struct Nothing
+		{
+			sf::Sprite left;
+			sf::Sprite right;
+			sf::Sprite middle;
+		} nothing;
+		
+		struct Hover
+		{
+			sf::Sprite left;
+			sf::Sprite right;
+			sf::Sprite middle;
+		} hover;
+		
+		struct Click
+		{
+			sf::Sprite left;
+			sf::Sprite right;
+			sf::Sprite middle;
+		} click;
+		
+		struct disabled
+		{
+			sf::Sprite left;
+			sf::Sprite right;
+			sf::Sprite middle;
+		} disabled;
 		
 		struct ItemSprites
 		{
@@ -86,6 +111,12 @@ class Dropdown
 	bool selected = false;
 	bool hover = false;
 	bool clicked = false;
+	
+	struct Properties
+	{
+		bool hidden = false;
+		bool disabled = false;
+	} properties;
 	
 	int x, y;
 	int width, height;

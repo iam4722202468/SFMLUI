@@ -40,7 +40,7 @@ void Checkbox::setText(std::string text_, int place, int size, sf::Color colour)
 
 bool Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
-	if(!properties.disabled)
+	if(!properties.disabled && !properties.hidden)
 	{
 		if(mouseX >= x+xOrigin && mouseX <= x+xOrigin+width && mouseY >= y+yOrigin && mouseY <= y+yOrigin+height && mouseStatus)
 		{
@@ -95,36 +95,39 @@ bool Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 
 void Checkbox::draw()
 {
-	if(!properties.disabled)
+	if(!properties.hidden)
 	{
-		if(!properties.checked)
+		if(!properties.disabled)
 		{
-			if(!hover && !clicked)
-				sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
-			else if(hover && clicked)
-				sprite.setTextureRect(sf::IntRect(0, 400, 100, 100));
-			else if(hover)
-				sprite.setTextureRect(sf::IntRect(0, 200, 100, 100));
+			if(!properties.checked)
+			{
+				if(!hover && !clicked)
+					sprite.setTextureRect(sf::IntRect(0, 0, 100, 100));
+				else if(hover && clicked)
+					sprite.setTextureRect(sf::IntRect(0, 400, 100, 100));
+				else if(hover)
+					sprite.setTextureRect(sf::IntRect(0, 200, 100, 100));
+			}
+			else
+			{
+				if(!hover && !clicked)
+					sprite.setTextureRect(sf::IntRect(0, 100, 100, 100));
+				else if(hover && clicked)
+					sprite.setTextureRect(sf::IntRect(0, 500, 100, 100));
+				else if(hover)
+					sprite.setTextureRect(sf::IntRect(0, 300, 100, 100));
+			}
 		}
 		else
 		{
-			if(!hover && !clicked)
-				sprite.setTextureRect(sf::IntRect(0, 100, 100, 100));
-			else if(hover && clicked)
-				sprite.setTextureRect(sf::IntRect(0, 500, 100, 100));
-			else if(hover)
-				sprite.setTextureRect(sf::IntRect(0, 300, 100, 100));
+			if(!properties.checked)
+				sprite.setTextureRect(sf::IntRect(0, 600, 100, 100));
+			else
+				sprite.setTextureRect(sf::IntRect(0, 700, 100, 100));
 		}
+		sprite.setPosition(sf::Vector2f(x+xOrigin,y+yOrigin));
+		
+		window.draw(sprite);
+		text->draw(x+xOrigin, y+yOrigin);
 	}
-	else
-	{
-		if(!properties.checked)
-			sprite.setTextureRect(sf::IntRect(0, 600, 100, 100));
-		else
-			sprite.setTextureRect(sf::IntRect(0, 700, 100, 100));
-	}
-	sprite.setPosition(sf::Vector2f(x+xOrigin,y+yOrigin));
-	
-	window.draw(sprite);
-	text->draw(x+xOrigin, y+yOrigin);
 }

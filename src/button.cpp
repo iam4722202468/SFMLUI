@@ -40,7 +40,7 @@ void Button::setText(std::string text_, int place, int size, sf::Color colour)
 
 bool Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
-	if(!properties.disabled)
+	if(!properties.disabled && !properties.hidden)
 	{
 		if(mouseX >= x+xOrigin && mouseX <= x+xOrigin+width && mouseY >= y+yOrigin && mouseY <= y+yOrigin+height && mouseStatus)
 		{
@@ -88,22 +88,25 @@ bool Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 
 void Button::draw()
 {
-	if(!properties.disabled)
+	if(!properties.hidden)
 	{
-		if(!hover && !clicked)
-			sprite.setTextureRect(sf::IntRect(0, 0, 200, 100));
-		else if(hover && clicked)
-			sprite.setTextureRect(sf::IntRect(0, 200, 200, 100));
-		else if(hover)
-			sprite.setTextureRect(sf::IntRect(0, 100, 200, 100));
+		if(!properties.disabled)
+		{
+			if(!hover && !clicked)
+				sprite.setTextureRect(sf::IntRect(0, 0, 200, 100));
+			else if(hover && clicked)
+				sprite.setTextureRect(sf::IntRect(0, 200, 200, 100));
+			else if(hover)
+				sprite.setTextureRect(sf::IntRect(0, 100, 200, 100));
+		}
+		else
+		{
+			sprite.setTextureRect(sf::IntRect(0, 300, 200, 100));
+		}
+		
+		sprite.setPosition(sf::Vector2f(x+xOrigin,y+yOrigin));
+		window.draw(sprite);
+		
+		text->draw(x+xOrigin, y+yOrigin);
 	}
-	else
-	{
-		sprite.setTextureRect(sf::IntRect(0, 300, 200, 100));
-	}
-	
-	sprite.setPosition(sf::Vector2f(x+xOrigin,y+yOrigin));
-	window.draw(sprite);
-	
-	text->draw(x+xOrigin, y+yOrigin);
 }
