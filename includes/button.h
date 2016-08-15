@@ -7,43 +7,23 @@
 #include <SFML/Graphics.hpp>
 
 #include "details.h"
+#include "SFMLUI.h"
 
 class UI;
-class Button
+class Button : public SFMLObject
 {
-	sf::RenderWindow& window;
 	sf::Texture buttonSheet;
 	sf::Sprite sprite;
 	
 public:
-	int &xOrigin, &yOrigin;
-	int x, y;
-	int height, width;
 	
-	bool focus = false;
+	void init();
 	
-	bool hover = false;
-	bool clicked = false;
-	
-	TextClass *text;
-	
-	UI *parent;
-	
-	struct Properties
-	{
-		bool hidden = false;
-		bool disabled = false;
-	} properties;
-	
-	int (*hoverEnterFunction)(Button *button);
-	int (*hoverLeaveFunction)(Button *button);
-	int (*clickDownFunction)(Button *button);
-	int (*clickUpFunction)(Button *button);
-	
-	Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Button *button), int (*hoverLeaveFunction)(Button *button), int (*clickDownFunction)(Button *button), int (*clickUpFunction)(Button *button), UI *parent);
+	Button(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent) :
+		SFMLObject(objectType, window, xOrigin, yOrigin, x, y, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, parent) {}
 	
 	void draw();
-	void setText(std::string text, int place = 9, int size = 14, sf::Color colour = sf::Color::Black);
+	void setText(std::string text);
 	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
 };
 

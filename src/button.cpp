@@ -6,19 +6,7 @@
 #include "SFMLUI.h"
 #include "button.h"
 
-Button::Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Button *button), int (*hoverLeaveFunction)(Button *button), int (*clickDownFunction)(Button *button), int (*clickUpFunction)(Button *button), UI *parent) :
-	window(window),
-	xOrigin(xOrigin),
-	yOrigin(yOrigin),
-	x(x),
-	y(y),
-	width(width),
-	height(height),
-	hoverEnterFunction(hoverEnterFunction),
-	hoverLeaveFunction(hoverLeaveFunction),
-	clickDownFunction(clickDownFunction),
-	clickUpFunction(clickUpFunction),
-	parent(parent)
+void Button::init()
 {
 	if (!buttonSheet.loadFromFile("resources/buttons.png", sf::IntRect(0, 0, 200, 400)))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
@@ -27,15 +15,14 @@ Button::Button(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int 
 	sprite.setTexture(buttonSheet);
 	sprite.scale(width/200.0f, height/100.0f);
 	
-	text = new TextClass(window, width, height);
+	text->properties.place = 9;
+	text->properties.size = 14;
+	text->properties.colour = sf::Color::Black;
 }
 
-void Button::setText(std::string text_, int place, int size, sf::Color colour)
+void Button::setText(std::string text_)
 {
 	text->properties.text = text_;
-	text->properties.place = place;
-	text->properties.size = size;
-	text->properties.colour = colour;
 }
 
 bool Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)

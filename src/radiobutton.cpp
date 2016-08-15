@@ -7,19 +7,7 @@
 #include "SFMLUI.h"
 #include "radiobutton.h"
 
-Radiobutton::Radiobutton(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Radiobutton *radiobutton), int (*hoverLeaveFunction)(Radiobutton *radiobutton), int (*clickDownFunction)(Radiobutton *radiobutton), int (*clickUpFunction)(Radiobutton *radiobutton), UI *parent) : 
-	window(window), 
-	xOrigin(xOrigin), 
-	yOrigin(yOrigin), 
-	x(x), 
-	y(y), 
-	width(width), 
-	height(height), 
-	hoverEnterFunction(hoverEnterFunction), 
-	hoverLeaveFunction(hoverLeaveFunction), 
-	clickDownFunction(clickDownFunction), 
-	clickUpFunction(clickUpFunction),
-	parent(parent)
+void Radiobutton::init()
 {
 	if (!radiobuttonSheet.loadFromFile("resources/radiobuttons.png", sf::IntRect(0, 0, 100, 800)))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
@@ -30,24 +18,21 @@ Radiobutton::Radiobutton(sf::RenderWindow& window, int &xOrigin, int &yOrigin, i
 	
 	group = 0;
 	
-	text = new TextClass(window, width, height);
+	text->properties.place = 9;
+	text->properties.size = 14;
+	text->properties.colour = sf::Color::Black;
 }
 
-void Radiobutton::setText(std::string text_, int place, int size, sf::Color colour)
+void Radiobutton::setText(std::string text_)
 {
 	text->properties.text = text_;
-	text->properties.place = place;
-	text->properties.size = size;
-	text->properties.colour = colour;
 }
 
 void Radiobutton::uncheckOthers()
 {
-	for(int otherButtons = 0; otherButtons < parent->radiobuttons.size(); otherButtons++)
-	{
-		if(parent->radiobuttons.at(otherButtons)->group == group)
-			parent->radiobuttons.at(otherButtons)->properties.checked = false;
-	}
+	for(int otherButtons = 0; otherButtons < parent->objects.size(); otherButtons++)
+		if(parent->objects.at(otherButtons)->objectType == "Radiobutton" && parent->objects.at(otherButtons)->group == group)
+			parent->objects.at(otherButtons)->properties.checked = false;
 }
 
 bool Radiobutton::checkmouse(int mouseX, int mouseY, bool mouseStatus)

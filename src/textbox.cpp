@@ -6,19 +6,7 @@
 #include "SFMLUI.h"
 #include "textbox.h"
 
-Textbox::Textbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Textbox *textbox), int (*hoverLeaveFunction)(Textbox *textbox), int (*clickDownFunction)(Textbox *textbox), int (*clickUpFunction)(Textbox *textbox), UI *parent) :
-	window(window),
-	xOrigin(xOrigin),
-	yOrigin(yOrigin),
-	x(x),
-	y(y),
-	width(width),
-	height(height),
-	hoverEnterFunction(hoverEnterFunction),
-	hoverLeaveFunction(hoverLeaveFunction),
-	clickDownFunction(clickDownFunction),
-	clickUpFunction(clickUpFunction),
-	parent(parent)
+void Textbox::init()
 {
 	if (!textboxSheet.loadFromFile("resources/textbox.png", sf::IntRect(0, 0, 200, 400)))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
@@ -32,9 +20,12 @@ Textbox::Textbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, in
 	sprite.setTexture(textboxSheet);
 	sprite.scale(width/200.0f, height/100.0f);
 	
-	text = new TextClass(window, width, height);
 	setText(currentText);
-
+	
+	text->properties.place = 1;
+	text->properties.size = 14;
+	text->properties.colour = sf::Color::Black;
+	
 	int spriteWidth;
 	
 	bool emptyRow = true;
@@ -112,12 +103,9 @@ Textbox::Textbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, in
 		}
 }
 
-void Textbox::setText(std::string text_, int place, int size, sf::Color colour)
+void Textbox::setText(std::string text_)
 {
 	text->properties.text = text_;
-	text->properties.place = place;
-	text->properties.size = size;
-	text->properties.colour = colour;
 }
 
 void Textbox::checkKey(sf::Event::KeyEvent keyInfo)

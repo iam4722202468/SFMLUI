@@ -4,19 +4,7 @@
 #include "SFMLUI.h"
 #include "dropdown.h"
 
-Dropdown::Dropdown(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Dropdown *dropdown), int (*hoverLeaveFunction)(Dropdown *dropdown), int (*clickDownFunction)(Dropdown *dropdown), int (*clickUpFunction)(Dropdown *dropdown), UI *parent) :
-	window(window),
-	xOrigin(xOrigin),
-	yOrigin(yOrigin),
-	x(x),
-	y(y),
-	width(width),
-	height(height),
-	hoverEnterFunction(hoverEnterFunction),
-	hoverLeaveFunction(hoverLeaveFunction),
-	clickDownFunction(clickDownFunction),
-	clickUpFunction(clickUpFunction),
-	parent(parent)
+void Dropdown::init()
 {
 	if (!dropdownSheet.loadFromFile("resources/dropdown.png"))
 		std::cout << "Error " << EXIT_FAILURE << " loading window border";
@@ -29,7 +17,10 @@ Dropdown::Dropdown(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, 
 	if (!dropdownImage.loadFromFile("resources/dropdown.png"))
 		std::cout << "Error " << EXIT_FAILURE << " loading window border";
 	
-	text = new TextClass(window, width, height);
+	text->properties.place = 10;
+	text->properties.size = 14;
+	text->properties.colour = sf::Color::Black;
+	
 	setText("");
 	
 	int counter = 0;
@@ -436,12 +427,9 @@ void Dropdown::addItem(std::string title)
 	items.push_back(new Item(this, items.size(), title));
 }
 
-void Dropdown::setText(std::string text_, int place, int size, sf::Color colour)
+void Dropdown::setText(std::string text_)
 {
 	text->properties.text = text_;
-	text->properties.place = place;
-	text->properties.size = size;
-	text->properties.colour = colour;
 }
 
 void Dropdown::draw()

@@ -7,49 +7,26 @@
 
 #include <SFML/Graphics.hpp>
 #include "details.h"
+#include "SFMLUI.h"
 
 class UI;
-class Radiobutton
+class Radiobutton : public SFMLObject
 {
-	sf::RenderWindow& window;
 	sf::Texture radiobuttonSheet;
 	sf::Sprite sprite;
 	
 	public:
-	int &xOrigin, &yOrigin;
-	int x, y;
-	int height, width;
 	
-	bool focus = false;
+	void init();
 	
-	TextClass *text;
-	
-	UI *parent;
-	
-	bool hover = false;
-	bool clicked = false;
-	
-	struct Properties
-	{
-		bool hidden = false;
-		bool disabled = false;
-		bool checked = false;
-	} properties;
-	
-	int group;
-	
-	int (*hoverEnterFunction)(Radiobutton *radiobutton);
-	int (*hoverLeaveFunction)(Radiobutton *radiobutton);
-	int (*clickDownFunction)(Radiobutton *radiobutton);
-	int (*clickUpFunction)(Radiobutton *radiobutton);
-	
-	Radiobutton(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Radiobutton *radiobutton), int (*hoverLeaveFunction)(Radiobutton *radiobutton), int (*clickDownFunction)(Radiobutton *radiobutton), int (*clickUpFunction)(Radiobutton *radiobutton), UI *parent);
+	Radiobutton(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent) :
+		SFMLObject(objectType, window, xOrigin, yOrigin, x, y, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, parent) {}
 	
 	void draw();
 	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
 	void uncheckOthers();
 	
-	void setText(std::string text, int place = 9, int size = 14, sf::Color colour = sf::Color::Black);
+	void setText(std::string text);
 };
 
 #endif

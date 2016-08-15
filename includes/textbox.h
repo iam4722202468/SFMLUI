@@ -8,23 +8,17 @@
 
 #include "details.h"
 
+#include "SFMLUI.h"
+
 class UI;
-class Textbox
+class Textbox : public SFMLObject
 {
-	sf::RenderWindow& window;
 	sf::Texture textboxSheet;
 	sf::Sprite sprite;
 	
 public:
-	int &xOrigin, &yOrigin;
-	int x, y;
-	int height, width;
 	
 	std::string currentText = "";
-	
-	bool focus = false;
-	bool hover = false;
-	bool clicked = false;
 	
 	bool placeHolder = false;
 	int placeHolderPlace = 0;
@@ -32,15 +26,6 @@ public:
 	bool highlighted = false;
 	
 	std::vector<double> textWidth;
-	TextClass *text;
-	
-	UI *parent;
-	
-	struct Properties
-	{
-		bool hidden = false;
-		bool disabled = false;
-	} properties;
 	
 	struct TextboxSprites
 	{
@@ -79,15 +64,13 @@ public:
 	sf::Clock clock;
 	sf::Clock typingCounter;
 	
-	int (*hoverEnterFunction)(Textbox *textbox);
-	int (*hoverLeaveFunction)(Textbox *textbox);
-	int (*clickDownFunction)(Textbox *textbox);
-	int (*clickUpFunction)(Textbox *textbox);
+	void init();
 	
-	Textbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Textbox *textbox), int (*hoverLeaveFunction)(Textbox *textbox), int (*clickDownFunction)(Textbox *textbox), int (*clickUpFunction)(Textbox *textbox), UI *parent);
+	Textbox(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent) :
+		SFMLObject(objectType, window, xOrigin, yOrigin, x, y, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, parent) {}
 	
 	void draw();
-	void setText(std::string text, int place = 1, int size = 14, sf::Color colour = sf::Color::Black);
+	void setText(std::string text);
 	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
 	void checkKey(sf::Event::KeyEvent keyInfo);
 };

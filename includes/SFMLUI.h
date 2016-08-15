@@ -14,7 +14,73 @@ class Checkbox;
 class Dropdown;
 class Textbox;
 class Radiobutton;
+
 class Label;
+
+class UI;
+
+class Item 
+{
+	TextClass *text;
+	
+	public:
+		int index;
+		std::string label;
+		void draw(Dropdown*);
+		Item(Dropdown*, int index, std::string label);
+		bool selected = false;
+		bool hover = false;
+		bool clicked = false;
+		void setText(std::string text_, int place = 10, int size = 14, sf::Color colour = sf::Color::Black);
+		int checkmouse(Dropdown *, int mouseX, int mouseY, bool mouseStatus);
+};
+class SFMLObject;
+
+class SFMLObject
+{
+	public:
+	
+	sf::RenderWindow& window;
+	
+	int &xOrigin, &yOrigin;
+	int x, y;
+	int height, width;
+	
+	bool focus = false;
+	bool hover = false;
+	bool clicked = false;
+	
+	int group;
+	
+	TextClass *text;
+	
+	UI *parent;
+	
+	struct Properties
+	{
+		bool hidden = false;
+		bool disabled = false;
+		bool checked = false;
+	} properties;
+	
+	std::vector<Item*> items; //for dropdown
+	
+	int (*hoverEnterFunction)(SFMLObject *object);
+	int (*hoverLeaveFunction)(SFMLObject *object);
+	int (*clickDownFunction)(SFMLObject *object);
+	int (*clickUpFunction)(SFMLObject *object);
+	
+	std::string objectType;
+	
+	SFMLObject(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent);
+	
+	virtual void init() {};
+	virtual void checkKey(sf::Event::KeyEvent keyInfo) {};
+	virtual void addItem(std::string) {};
+	virtual void draw() = 0;
+	virtual void setText(std::string text) = 0;
+	virtual bool checkmouse(int mouseX, int mouseY, bool mouseStatus) = 0;
+};
 
 class UI
 {
@@ -25,11 +91,7 @@ class UI
 	
 	public:
 	
-	std::vector<Button*> buttons;
-	std::vector<Checkbox*> checkboxes;
-	std::vector<Dropdown*> dropdowns;
-	std::vector<Textbox*> textboxes;
-	std::vector<Radiobutton*> radiobuttons;
+	std::vector<SFMLObject*> objects;
 	std::vector<Label*> labels;
 	
 	int x,y;
@@ -40,11 +102,7 @@ class UI
 	bool moveable = false;
 	
 	UI(sf::RenderWindow& window, int x, int y);
-	void addButton(int posX, int posY, int width, int height, int (*hoverEnterFunction)(Button *button) = NULL, int (*hoverLeaveFunction)(Button *button) = NULL, int (*clickDownFunction)(Button *button) = NULL, int (*clickUpFunction)(Button *button) = NULL);
-	void addCheckbox(int posX, int posY, int width, int height, int (*hoverEnterFunction)(Checkbox *checkbox) = NULL, int (*hoverLeaveFunction)(Checkbox *checkbox) = NULL, int (*clickDownFunction)(Checkbox *checkbox) = NULL, int (*clickUpFunction)(Checkbox *checkbox) = NULL);
-	void addDropdown(int posX, int posY, int width, int height, int (*hoverEnterFunction)(Dropdown *dropdown) = NULL, int (*hoverLeaveFunction)(Dropdown *dropdown) = NULL, int (*clickDownFunction)(Dropdown *dropdown) = NULL, int (*clickUpFunction)(Dropdown *dropdown) = NULL);
-	void addTextbox(int posX, int posY, int width, int height, int (*hoverEnterFunction)(Textbox *textbox) = NULL, int (*hoverLeaveFunction)(Textbox *textbox) = NULL, int (*clickDownFunction)(Textbox *textbox) = NULL, int (*clickUpFunction)(Textbox *textbox) = NULL);
-	void addRadiobutton(int posX, int posY, int width, int height, int (*hoverEnterFunction)(Radiobutton *radiobutton) = NULL, int (*hoverLeaveFunction)(Radiobutton *radiobutton) = NULL, int (*clickDownFunction)(Radiobutton *radiobutton) = NULL, int (*clickUpFunction)(Radiobutton *radiobutton) = NULL);
+	void addObject(std::string objectType, int posX, int posY, int width, int height, int (*hoverEnterFunction)(SFMLObject *object) = NULL, int (*hoverLeaveFunction)(SFMLObject *object) = NULL, int (*clickDownFunction)(SFMLObject *object) = NULL, int (*clickUpFunction)(SFMLObject *object) = NULL);
 	void addLabel(int posX, int posY, int width, int height, std::string text_ = "", int place = 10, int size = 14, sf::Color colour = sf::Color::Black);
 	
 	void draw();

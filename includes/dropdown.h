@@ -7,46 +7,21 @@
 #include <SFML/Graphics.hpp>
 
 #include "details.h"
+#include "SFMLUI.h"
 
 class UI;
 class Dropdown;
+class Item;
 
-class Item 
-{
-	TextClass *text;
-	
-	public:
-		int index;
-		std::string label;
-		void draw(Dropdown*);
-		Item(Dropdown*, int index, std::string label);
-		bool selected = false;
-		bool hover = false;
-		bool clicked = false;
-		void setText(std::string text_, int place = 10, int size = 14, sf::Color colour = sf::Color::Black);
-		int checkmouse(Dropdown *, int mouseX, int mouseY, bool mouseStatus);
-};
-
-class Dropdown 
+class Dropdown : public SFMLObject
 {
 	friend class Item;
 	
 	protected:
 	
-	sf::RenderWindow& window;
 	sf::Texture dropdownSheet;
 	
 	public:
-	
-	UI *parent;
-	TextClass *text;
-	
-	bool focus = false;
-	
-	int (*hoverEnterFunction)(Dropdown *dropdown);
-	int (*hoverLeaveFunction)(Dropdown *dropdown);
-	int (*clickDownFunction)(Dropdown *dropdown);
-	int (*clickUpFunction)(Dropdown *dropdown);
 	
 	struct SheetInfo
 	{
@@ -104,30 +79,16 @@ class Dropdown
 		} itemSprites;
 	} dropdownSprites;
 	
-	std::vector<Item*> items;
-	
-	int &xOrigin, &yOrigin;
-	
-	bool selected = false;
-	bool hover = false;
-	bool clicked = false;
-	
-	struct Properties
-	{
-		bool hidden = false;
-		bool disabled = false;
-	} properties;
-	
-	int x, y;
-	int width, height;
 	bool dropdown = false;
 	void draw();
 	void addItem(std::string);
 	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
 	
-	void setText(std::string text, int place = 10, int size = 14, sf::Color colour = sf::Color::Black);
+	void setText(std::string text);
+	void init() override;
 	
-	Dropdown(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Dropdown *dropdown), int (*hoverLeaveFunction)(Dropdown *dropdown), int (*clickDownFunction)(Dropdown *dropdown), int (*clickUpFunction)(Dropdown *dropdown), UI *parent);
+	Dropdown(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent) :
+		SFMLObject(objectType, window, xOrigin, yOrigin, x, y, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, parent) {}
 };
 	
 #endif

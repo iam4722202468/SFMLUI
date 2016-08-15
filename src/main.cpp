@@ -11,13 +11,13 @@
 #include "radiobutton.h"
 #include "label.h"
 
-int enableCheese(Checkbox *checkbox)
+int enableCheese(SFMLObject *object)
 {
 	//same objects
-	if(checkbox->properties.checked)
-		checkbox->parent->dropdowns.at(0)->properties.disabled = false;
+	if(object->properties.checked)
+		object->parent->objects.at(8)->properties.disabled = false;
 	else
-		checkbox->parent->dropdowns.at(0)->properties.disabled = true;
+		object->parent->objects.at(8)->properties.disabled = true;
 	
 	return 0;
 }
@@ -34,40 +34,44 @@ int main(int argc, char *argv[])
 	
 	frame1.addLabel(10,40,10,10, "Gendre*");
 	
-	frame1.addRadiobutton(40,60,16,16);
-		frame1.radiobuttons.at(0)->setText("Male");
+	frame1.addObject("Radiobutton", 40,60,16,16);
+		frame1.objects.at(0)->setText("Male");
+		frame1.objects.at(0)->group = 1;
+	
+	frame1.addObject("Radiobutton", 40,80,16,16);
+		frame1.objects.at(1)->setText("Female");
+		frame1.objects.at(1)->group = 1;
 		
-	frame1.addRadiobutton(40,80,16,16);
-		frame1.radiobuttons.at(1)->setText("Female");
-		
-	frame1.addRadiobutton(40,100,16,16);
-		frame1.radiobuttons.at(2)->setText("Other");
+	frame1.addObject("Radiobutton", 40,100,16,16);
+		frame1.objects.at(2)->setText("Other");
+		frame1.objects.at(2)->group = 1;
 	
 	frame1.addLabel(10,140,10,10, "Phone Number*");
-		frame1.addTextbox(20, 160, 180, 30);
+		frame1.addObject("Textbox", 20, 160, 180, 30);
 	
 	frame1.addLabel(10,210,140,10, "Toppings");
-		frame1.addCheckbox(40,230,16,16);
-			frame1.checkboxes.at(0)->setText("Base");
-			frame1.checkboxes.at(0)->properties.checked = true;
-			
-		frame1.addCheckbox(40,250,16,16);
-			frame1.checkboxes.at(1)->setText("Sauce");
-			
-		frame1.addCheckbox(40,270,16,16, NULL, NULL, NULL, enableCheese);
-			frame1.checkboxes.at(2)->setText("Cheese");
-			frame1.checkboxes.at(2)->properties.checked = true;
-			
-			frame1.addDropdown(60,290,140,30);
-				frame1.dropdowns.at(0)->addItem("Cheddar");
-				frame1.dropdowns.at(0)->addItem("test1");
-				frame1.dropdowns.at(0)->addItem("test2");
-				
-				frame1.dropdowns.at(0)->items.at(0)->selected = true;
-				frame1.dropdowns.at(0)->setText("Cheddar");
+		frame1.addObject("Checkbox", 40,230,16,16);
+			frame1.objects.at(4)->setText("Base");
+			frame1.objects.at(4)->properties.checked = true;
 		
-		frame1.addCheckbox(40,325,16,16);
-			frame1.checkboxes.at(3)->setText("Pepperoni");
+		frame1.addObject("Checkbox", 40,250,16,16);
+			frame1.objects.at(5)->setText("Sauce");
+			
+		frame1.addObject("Checkbox", 40,270,16,16, NULL, NULL, NULL, enableCheese);
+			frame1.objects.at(6)->setText("Cheese");
+			frame1.objects.at(6)->properties.checked = true;
+		
+		frame1.addObject("Checkbox", 40,325,16,16);
+			frame1.objects.at(7)->setText("Pepperoni");
+				
+			frame1.addObject("Dropdown", 60,290,140,30);
+				frame1.objects.at(8)->addItem("Cheddar");
+				frame1.objects.at(8)->addItem("test1");
+				frame1.objects.at(8)->addItem("test2");
+				
+				frame1.objects.at(8)->items.at(0)->selected = true;
+				frame1.objects.at(8)->setText("Cheddar");
+		
 		//	frame1.addRadiobutton(40, 345, 16, 16);
 		//		frame1.radiobuttons.at(3)->group = 1;
 		

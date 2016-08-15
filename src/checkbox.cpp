@@ -6,19 +6,7 @@
 
 #include "checkbox.h"
 
-Checkbox::Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(Checkbox *checkbox), int (*hoverLeaveFunction)(Checkbox *checkbox), int (*clickDownFunction)(Checkbox *checkbox), int (*clickUpFunction)(Checkbox *checkbox), UI *parent) : 
-	window(window), 
-	xOrigin(xOrigin), 
-	yOrigin(yOrigin), 
-	x(x), 
-	y(y), 
-	width(width), 
-	height(height), 
-	hoverEnterFunction(hoverEnterFunction), 
-	hoverLeaveFunction(hoverLeaveFunction), 
-	clickDownFunction(clickDownFunction), 
-	clickUpFunction(clickUpFunction),
-	parent(parent)
+void Checkbox::init()
 {
 	if (!checkboxSheet.loadFromFile("resources/checkboxes.png", sf::IntRect(0, 0, 100, 800)))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
@@ -27,15 +15,14 @@ Checkbox::Checkbox(sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, 
 	sprite.setTexture(checkboxSheet);
 	sprite.scale(width/100.0f, height/100.0f);
 	
-	text = new TextClass(window, width, height);
+	text->properties.place = 9;
+	text->properties.size = 14;
+	text->properties.colour = sf::Color::Black;
 }
 
-void Checkbox::setText(std::string text_, int place, int size, sf::Color colour)
+void Checkbox::setText(std::string text_)
 {
 	text->properties.text = text_;
-	text->properties.place = place;
-	text->properties.size = size;
-	text->properties.colour = colour;
 }
 
 bool Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
