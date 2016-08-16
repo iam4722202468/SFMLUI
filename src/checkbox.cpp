@@ -20,11 +20,6 @@ void Checkbox::init()
 	text->properties.colour = sf::Color::Black;
 }
 
-void Checkbox::setText(std::string text_)
-{
-	text->properties.text = text_;
-}
-
 bool Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
 	if(!properties.disabled && !properties.hidden)
@@ -65,11 +60,10 @@ bool Checkbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 			if(hover)
 				if(hoverLeaveFunction != NULL)
 					hoverLeaveFunction(this);
-			hover = false;
-			clicked = false;
-			
 			if(mouseStatus)
 				focus = false;
+			hover = false;
+			clicked = false;
 		}
 	}
 	else

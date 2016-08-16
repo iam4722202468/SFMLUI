@@ -32,6 +32,18 @@ SFMLObject::SFMLObject(std::string objectType, sf::RenderWindow& window, int &xO
 	text = new TextClass(window, width, height);
 }
 
+SFMLObject::~SFMLObject()
+{
+	delete text;
+	for(int place = 0; place < items.size(); place++)
+		delete items.at(place);
+}
+
+void SFMLObject::setText(std::string text_)
+{
+	text->properties.text = text_;
+}
+
 UI::UI(sf::RenderWindow& window, int x, int y) : window(window), x(x), y(y)
 {
 	std::cout << "frame created" << std::endl;
@@ -65,6 +77,16 @@ void UI::addObject(std::string objectType, int x_, int y_, int width, int height
 	else if(objectType == "Radiobutton")
 		objects.push_back(new Radiobutton(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this));
 	objects.at(objects.size()-1)->init();
+}
+
+void UI::deleteObject(int objectNumber)
+{
+	delete objects.at(objectNumber);
+	
+	for(int place = objectNumber; place < objects.size()-1; place++)
+		objects.at(place) = objects.at(place+1);
+	
+	objects.pop_back();
 }
 
 void UI::addLabel(int x_, int y_, int width, int height, std::string text_, int place, int size, sf::Color colour)
@@ -127,8 +149,10 @@ bool UI::checkMouse(int mouseX, int mouseY, bool mouseStatus)
 	{
 		x = border.x;
 		y = border.y;
-		return true;
 	}
+	
+	if(mouseX > x && mouseY > y && mouseX < x+width && mouseY < y+height)
+		return true;
 	else
 		return false;
 }

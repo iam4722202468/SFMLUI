@@ -7,7 +7,6 @@
 #include <SFML/Graphics.hpp>
 
 #include "details.h"
-
 #include "SFMLUI.h"
 
 class UI;
@@ -70,7 +69,6 @@ public:
 		SFMLObject(objectType, window, xOrigin, yOrigin, x, y, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, parent) {}
 	
 	void draw();
-	void setText(std::string text);
 	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
 	void checkKey(sf::Event::KeyEvent keyInfo);
 };

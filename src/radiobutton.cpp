@@ -23,11 +23,6 @@ void Radiobutton::init()
 	text->properties.colour = sf::Color::Black;
 }
 
-void Radiobutton::setText(std::string text_)
-{
-	text->properties.text = text_;
-}
-
 void Radiobutton::uncheckOthers()
 {
 	for(int otherButtons = 0; otherButtons < parent->objects.size(); otherButtons++)
@@ -37,7 +32,7 @@ void Radiobutton::uncheckOthers()
 
 bool Radiobutton::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
-	if(!properties.disabled)
+	if(!properties.disabled && !properties.hidden)
 	{
 		if(mouseX >= x+xOrigin && mouseX <= x+xOrigin+width && mouseY >= y+yOrigin && mouseY <= y+yOrigin+height && mouseStatus)
 		{

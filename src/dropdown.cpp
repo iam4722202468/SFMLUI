@@ -239,6 +239,11 @@ Item::Item(Dropdown *parent, int index, std::string label) :
 	setText(label);	
 }
 
+Item::~Item()
+{
+	delete text;
+}
+
 void Item::draw(Dropdown *parent)
 {
 	if(index == 0)
@@ -425,11 +430,6 @@ bool Dropdown::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 void Dropdown::addItem(std::string title)
 {
 	items.push_back(new Item(this, items.size(), title));
-}
-
-void Dropdown::setText(std::string text_)
-{
-	text->properties.text = text_;
 }
 
 void Dropdown::draw()

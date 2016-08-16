@@ -23,7 +23,6 @@ public:
 		SFMLObject(objectType, window, xOrigin, yOrigin, x, y, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, parent) {}
 	
 	void draw();
-	void setText(std::string text);
 	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
 };
 

@@ -84,7 +84,6 @@ class Dropdown : public SFMLObject
 	void addItem(std::string);
 	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
 	
-	void setText(std::string text);
 	void init() override;
 	
 	Dropdown(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent) :

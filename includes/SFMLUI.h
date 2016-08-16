@@ -24,15 +24,18 @@ class Item
 	TextClass *text;
 	
 	public:
+		Item(Dropdown*, int index, std::string label);
+		~Item();
+		
 		int index;
 		std::string label;
 		void draw(Dropdown*);
-		Item(Dropdown*, int index, std::string label);
+		
 		bool selected = false;
 		bool hover = false;
 		bool clicked = false;
 		void setText(std::string text_, int place = 10, int size = 14, sf::Color colour = sf::Color::Black);
-		int checkmouse(Dropdown *, int mouseX, int mouseY, bool mouseStatus);
+		int checkmouse(Dropdown*, int mouseX, int mouseY, bool mouseStatus);
 };
 class SFMLObject;
 
@@ -73,12 +76,14 @@ class SFMLObject
 	std::string objectType;
 	
 	SFMLObject(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent);
+	~SFMLObject();
 	
 	virtual void init() {};
 	virtual void checkKey(sf::Event::KeyEvent keyInfo) {};
 	virtual void addItem(std::string) {};
 	virtual void draw() = 0;
-	virtual void setText(std::string text) = 0;
+	
+	virtual void setText(std::string text);
 	virtual bool checkmouse(int mouseX, int mouseY, bool mouseStatus) = 0;
 };
 
@@ -108,6 +113,8 @@ class UI
 	void draw();
 	
 	void setBorder();
+	
+	void deleteObject(int objectNumber);
 	
 	bool checkMouse(int mouseX, int mouseY, bool mouseStatus);
 	void checkKey(sf::Event::KeyEvent keyInfo);

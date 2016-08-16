@@ -20,11 +20,6 @@ void Button::init()
 	text->properties.colour = sf::Color::Black;
 }
 
-void Button::setText(std::string text_)
-{
-	text->properties.text = text_;
-}
-
 bool Button::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
 	if(!properties.disabled && !properties.hidden)

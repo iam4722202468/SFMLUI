@@ -103,11 +103,6 @@ void Textbox::init()
 		}
 }
 
-void Textbox::setText(std::string text_)
-{
-	text->properties.text = text_;
-}
-
 void Textbox::checkKey(sf::Event::KeyEvent keyInfo)
 {
 	if(focus)
@@ -235,7 +230,7 @@ void Textbox::checkKey(sf::Event::KeyEvent keyInfo)
 
 bool Textbox::checkmouse(int mouseX, int mouseY, bool mouseStatus)
 {
-	if(!properties.disabled)
+	if(!properties.disabled && !properties.hidden)
 	{
 		if(mouseX >= x+xOrigin && mouseX <= x+xOrigin+width && mouseY >= y+yOrigin && mouseY <= y+yOrigin+height && mouseStatus)
 		{

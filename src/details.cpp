@@ -19,7 +19,6 @@ TextClass::TextClass(sf::RenderWindow& window, int parentWidth, int parentHeight
 
 void TextClass::draw(int x, int y)
 {
-	
 	text.setString(properties.text);
 	text.setCharacterSize(properties.size);
 	

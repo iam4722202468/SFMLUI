@@ -25,8 +25,6 @@ class Radiobutton : public SFMLObject
 	void draw();
 	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
 	void uncheckOthers();
-	
-	void setText(std::string text);
 };
 
 #endif
