@@ -3,6 +3,8 @@
 
 class Border
 {
+	std::string borderFileName;
+	
 	sf::Texture borderSheet;
 	sf::Font font;
 	sf::Text text;
@@ -47,7 +49,7 @@ class Border
 		} closeButton;
 	} borderInfo;
 	
-	Border();
+	Border(std::string borderFileName);
 	void generateSprites();
 	void moveSprites();
 	void init(int x, int y, int width, int height);

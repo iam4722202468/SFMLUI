@@ -74,8 +74,9 @@ class SFMLObject
 	int (*clickUpFunction)(SFMLObject *object);
 	
 	std::string objectType;
+	std::string objectFileName;
 	
-	SFMLObject(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent);
+	SFMLObject(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent, std::string objectFileName);
 	~SFMLObject();
 	
 	virtual void init() {};
@@ -90,7 +91,7 @@ class SFMLObject
 class UI
 {
 	sf::RenderWindow& window;
-	Border border;
+	Border *border;
 	
 	TextClass *text;
 	
@@ -100,14 +101,14 @@ class UI
 	std::vector<Label*> labels;
 	
 	int x,y;
-	int width = 700, height = 400;
+	int width, height;
 	bool clicked = false;
 	
 	bool hasBorder = false;
 	bool moveable = false;
 	
-	UI(sf::RenderWindow& window, int x, int y);
-	void addObject(std::string objectType, int posX, int posY, int width, int height, int (*hoverEnterFunction)(SFMLObject *object) = NULL, int (*hoverLeaveFunction)(SFMLObject *object) = NULL, int (*clickDownFunction)(SFMLObject *object) = NULL, int (*clickUpFunction)(SFMLObject *object) = NULL);
+	UI(sf::RenderWindow& window, int x, int y, int height, int width, std::string borderFileName = "");
+	void addObject(std::string objectType, int posX, int posY, int width, int height, int (*hoverEnterFunction)(SFMLObject *object) = NULL, int (*hoverLeaveFunction)(SFMLObject *object) = NULL, int (*clickDownFunction)(SFMLObject *object) = NULL, int (*clickUpFunction)(SFMLObject *object) = NULL, std::string objectFileName = "");
 	void addLabel(int posX, int posY, int width, int height, std::string text_ = "", int place = 10, int size = 14, sf::Color colour = sf::Color::Black);
 	
 	void draw();

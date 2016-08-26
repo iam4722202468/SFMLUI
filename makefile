@@ -1,6 +1,6 @@
 IDIR = ./includes
 CC = g++
-CXXFLAGS += -I$(IDIR) -std=c++11 -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS += -I$(IDIR) -std=c++11 -lsfml-graphics -lsfml-window -lsfml-system -g
 
 ODIR = ./build
 CPPDIR = ./src

@@ -1,11 +1,18 @@
 #include <iostream>
-
+#include <string>
 #include <SFML/Graphics.hpp>
 #include "border.h"
 
-Border::Border()
+Border::Border(std::string borderFileName_) :
+	borderFileName(borderFileName_)
 {
-	if (!borderSheet.loadFromFile("resources/border.png"))
+	if(borderFileName == "")
+	{
+		borderFileName = "resources/border.png";
+		std::cout << borderFileName << std::endl;
+	}
+	
+	if(!borderSheet.loadFromFile(borderFileName))
 		std::cout << "Error " << EXIT_FAILURE << " loading window border";
 	else
 		std::cout << "window border loaded" << std::endl;
@@ -20,7 +27,7 @@ void Border::init(int x_, int y_, int width_, int height_)
 	
 	sf::Image borderImage;
 	
-	if (!borderImage.loadFromFile("resources/border.png"))
+	if(!borderImage.loadFromFile(borderFileName))
 		std::cout << "Error " << EXIT_FAILURE << " loading window border";
 	
 	int counter = 0;

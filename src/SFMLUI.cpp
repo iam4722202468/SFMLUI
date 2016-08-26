@@ -13,7 +13,7 @@
 #include "radiobutton.h"
 #include "label.h"
 
-SFMLObject::SFMLObject(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent) :
+SFMLObject::SFMLObject(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent, std::string objectFileName) :
 	objectType(objectType),
 	window(window),
 	xOrigin(xOrigin),
@@ -26,7 +26,8 @@ SFMLObject::SFMLObject(std::string objectType, sf::RenderWindow& window, int &xO
 	hoverLeaveFunction(hoverLeaveFunction),
 	clickDownFunction(clickDownFunction),
 	clickUpFunction(clickUpFunction),
-	parent(parent)
+	parent(parent),
+	objectFileName(objectFileName)
 {
 	group = -1;
 	text = new TextClass(window, width, height);
@@ -44,16 +45,23 @@ void SFMLObject::setText(std::string text_)
 	text->properties.text = text_;
 }
 
-UI::UI(sf::RenderWindow& window, int x, int y) : window(window), x(x), y(y)
+UI::UI(sf::RenderWindow& window, int x, int y, int height, int width, std::string borderFileName) :
+	window(window),
+	x(x),
+	y(y),
+	width(width),
+	height(height)
 {
 	std::cout << "frame created" << std::endl;
+	border = new Border(borderFileName);
+	
 	setBorder();
-	text = new TextClass(window, width - border.borderInfo.closeButton.width, border.borderInfo.titleHeight);
+	text = new TextClass(window, width - border->borderInfo.closeButton.width, border->borderInfo.titleHeight);
 }
 
 void UI::setBorder()
 {
-	border.init(x, y, width, height);
+	border->init(x, y, width, height);
 }
 
 void UI::setText(std::string text_, int place, int size, sf::Color colour)
@@ -64,18 +72,18 @@ void UI::setText(std::string text_, int place, int size, sf::Color colour)
 	text->properties.colour = colour;
 }
 
-void UI::addObject(std::string objectType, int x_, int y_, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object))
+void UI::addObject(std::string objectType, int x_, int y_, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), std::string objectFileName)
 {
 	if(objectType == "Button")
-		objects.push_back(new Button(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this));
+		objects.push_back(new Button(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this, objectFileName));
 	else if(objectType == "Checkbox")
-		objects.push_back(new Checkbox(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this));
+		objects.push_back(new Checkbox(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this, objectFileName));
 	else if(objectType == "Dropdown")
-		objects.push_back(new Dropdown(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this));
+		objects.push_back(new Dropdown(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this, objectFileName));
 	else if(objectType == "Textbox")
-		objects.push_back(new Textbox(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this));
+		objects.push_back(new Textbox(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this, objectFileName));
 	else if(objectType == "Radiobutton")
-		objects.push_back(new Radiobutton(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this));
+		objects.push_back(new Radiobutton(objectType, window, x, y, x_, y_, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, this, objectFileName));
 	objects.at(objects.size()-1)->init();
 }
 
@@ -98,19 +106,19 @@ void UI::draw()
 {
 	if(hasBorder)
 	{
-		window.draw(border.background);
+		window.draw(border->background);
 		
-		window.draw(border.left);
-		window.draw(border.right);
-		window.draw(border.middle);
+		window.draw(border->left);
+		window.draw(border->right);
+		window.draw(border->middle);
 		
-		window.draw(border.xButton);
+		window.draw(border->xButton);
 		
-		window.draw(border.lCorner);
-		window.draw(border.rCorner);
-		window.draw(border.lBorder);
-		window.draw(border.rBorder);
-		window.draw(border.dBorder);
+		window.draw(border->lCorner);
+		window.draw(border->rCorner);
+		window.draw(border->lBorder);
+		window.draw(border->rBorder);
+		window.draw(border->dBorder);
 		text->draw(x, y);
 	}
 	for(int place = 0; place < objects.size(); place++)
@@ -145,10 +153,10 @@ bool UI::checkMouse(int mouseX, int mouseY, bool mouseStatus)
 			std::cout << "dropdown infocus" << std::endl;
 	*/
 	
-	if(moveable && hasBorder && border.checkMouse(mouseX, mouseY, mouseStatus))
+	if(moveable && hasBorder && border->checkMouse(mouseX, mouseY, mouseStatus))
 	{
-		x = border.x;
-		y = border.y;
+		x = border->x;
+		y = border->y;
 	}
 	
 	if(mouseX > x && mouseY > y && mouseX < x+width && mouseY < y+height)

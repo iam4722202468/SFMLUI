@@ -8,7 +8,10 @@
 
 void Textbox::init()
 {
-	if (!textboxSheet.loadFromFile("resources/textbox.png", sf::IntRect(0, 0, 200, 400)))
+	if(objectFileName == "")
+		objectFileName = "resources/textbox.png";
+		
+	if(!textboxSheet.loadFromFile(objectFileName))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
 	
 	std::cout << "textbox created" << std::endl;

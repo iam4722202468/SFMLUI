@@ -6,7 +6,10 @@
 
 void Dropdown::init()
 {
-	if (!dropdownSheet.loadFromFile("resources/dropdown.png"))
+	if(objectFileName == "")
+		objectFileName = "resources/dropdown.png";
+		
+	if(!dropdownSheet.loadFromFile(objectFileName))
 		std::cout << "Error " << EXIT_FAILURE << " loading window border";
 	else
 		std::cout << "dropdown sheet loaded" << std::endl;
@@ -14,7 +17,7 @@ void Dropdown::init()
 	std::cout << "dropdown created" << std::endl;
 	
 	sf::Image dropdownImage;
-	if (!dropdownImage.loadFromFile("resources/dropdown.png"))
+	if (!dropdownImage.loadFromFile(objectFileName))
 		std::cout << "Error " << EXIT_FAILURE << " loading window border";
 	
 	text->properties.place = 10;

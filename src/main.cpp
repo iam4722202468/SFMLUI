@@ -35,8 +35,8 @@ int main(int argc, char *argv[])
 	std::vector<UI*> UIVector;
 	UI* tempUIPounter;
 	
-	UIVector.push_back(new UI(window, 200,100));
-	UIVector.push_back(new UI(window, 300,0));
+	UIVector.push_back(new UI(window, 200,100, 200,200));
+	UIVector.push_back(new UI(window, 300,0, 400,500, ""));
 	
 	UIVector.at(0)->setText("Pizza Order Form", 4);
 	
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
 	
 	frame1->addLabel(10,40,10,10, "Gendre*");
 	
-	frame1->addObject("Radiobutton", 40,60,16,16);
+	frame1->addObject("Radiobutton", 40,60,16,16, NULL, NULL, NULL, NULL, "resources/radiobuttons_red.png");
 		frame1->objects.at(0)->setText("Male");
 		frame1->objects.at(0)->group = 1;
 	

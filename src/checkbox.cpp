@@ -8,7 +8,10 @@
 
 void Checkbox::init()
 {
-	if (!checkboxSheet.loadFromFile("resources/checkboxes.png", sf::IntRect(0, 0, 100, 800)))
+	if(objectFileName == "")
+		objectFileName = "resources/checkboxes.png";
+		
+	if(!checkboxSheet.loadFromFile(objectFileName))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
 	std::cout << "checkbox created" << std::endl;
 	

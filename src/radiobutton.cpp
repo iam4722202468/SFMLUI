@@ -9,7 +9,10 @@
 
 void Radiobutton::init()
 {
-	if (!radiobuttonSheet.loadFromFile("resources/radiobuttons.png", sf::IntRect(0, 0, 100, 800)))
+	if(objectFileName == "")
+		objectFileName = "resources/radiobuttons.png";
+		
+	if(!radiobuttonSheet.loadFromFile(objectFileName))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
 	std::cout << "radiobutton created" << std::endl;
 	

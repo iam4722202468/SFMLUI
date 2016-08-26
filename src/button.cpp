@@ -8,7 +8,10 @@
 
 void Button::init()
 {
-	if (!buttonSheet.loadFromFile("resources/buttons.png", sf::IntRect(0, 0, 200, 400)))
+	if(objectFileName == "")
+		objectFileName = "resources/buttons.png";
+	
+	if(!buttonSheet.loadFromFile(objectFileName))
 			std::cout << "Error " << EXIT_FAILURE << " loading sprite";
 	std::cout << "button created" << std::endl;
 	
