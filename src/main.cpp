@@ -24,7 +24,10 @@ int enableCheese(SFMLObject *object)
 
 int main(int argc, char *argv[])
 {
-	sf::RenderWindow window(sf::VideoMode(1200, 600), "SFML window");
+	int windowX = 1200;
+	int windowY = 600;
+	
+	sf::RenderWindow window(sf::VideoMode(windowX, windowY), "SFML window");
 	
 	sf::Clock clock;
 	
@@ -108,19 +111,22 @@ int main(int argc, char *argv[])
 		
 		while(window.pollEvent(event))
 		{
+			int mouseX = (int)(sf::Mouse::getPosition(window).x*((float)windowX)/window.getSize().x);
+			int mouseY = (int)(sf::Mouse::getPosition(window).y*((float)windowY)/window.getSize().y);
+			
 			// Close window : exit
 			if(event.type == sf::Event::Closed)
 				window.close();
 			else if(event.type == sf::Event::MouseMoved)
 			{
 				if(UIVector.size() > 0)
-					UIVector.at(0)->checkMouse(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, mouseLeftDown);
+					UIVector.at(0)->checkMouse(mouseX, mouseY, mouseLeftDown);
 			}
 			else if(event.type == sf::Event::MouseButtonPressed)
 			{
 				mouseLeftDown = true;
 				for(int place = 0; place < UIVector.size(); place++)
-					if(UIVector.at(place)->checkMouse(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, mouseLeftDown))
+					if(UIVector.at(place)->checkMouse(mouseX, mouseY, mouseLeftDown))
 					{
 						if(place != 0)
 						{
@@ -138,7 +144,7 @@ int main(int argc, char *argv[])
 			{
 				mouseLeftDown = false;
 				if(UIVector.size() > 0)
-					UIVector.at(0)->checkMouse(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y, mouseLeftDown);
+					UIVector.at(0)->checkMouse(mouseX, mouseY, mouseLeftDown);
 			}
 			else if(event.type == sf::Event::KeyPressed)
 			{

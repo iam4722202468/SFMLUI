@@ -1,5 +1,5 @@
-#ifndef DROPDOWN_H
-#define DROPDOWN_H
+#ifndef LIST_H
+#define LIST_H
 
 #include <iostream>
 #include <string>
@@ -10,10 +10,10 @@
 #include "SFMLUI.h"
 
 class UI;
-class Dropdown;
+class List;
 class Item;
 
-class Dropdown : public SFMLObject
+class List : public SFMLObject
 {
 	friend class Item;
 	
@@ -23,13 +23,6 @@ class Dropdown : public SFMLObject
 	
 	public:
 	
-	struct ObjectSprites
-	{
-		sf::Sprite left;
-		sf::Sprite right;
-		sf::Sprite middle;
-	};
-		
 	struct SheetInfo
 	{
 		struct Left	{int width,height;} left;
@@ -40,17 +33,38 @@ class Dropdown : public SFMLObject
 		int itemSize = 30;
 	} sheetInfo;
 	
-	struct DropdownSprites
+	struct ListSprites
 	{
-		sf::Sprite button;
+		sf::Sprite buttonUp;
+		sf::Sprite buttonDown;
 		
-		sf::Sprite corner;
-		sf::Sprite edge;
+		struct Nothing
+		{
+			sf::Sprite left;
+			sf::Sprite top;
+			sf::Sprite corner;
+		} nothing;
 		
-		ObjectSprites nothing;
-		ObjectSprites hover;
-		ObjectSprites click;
-		ObjectSprites disabled;
+		struct Hover
+		{
+			sf::Sprite left;
+			sf::Sprite top;
+			sf::Sprite corner;
+		} hover;
+		
+		struct Click
+		{
+			sf::Sprite left;
+			sf::Sprite top;
+			sf::Sprite corner;
+		} click;
+		
+		struct Disabled
+		{
+			sf::Sprite left;
+			sf::Sprite top;
+			sf::Sprite corner;
+		} disabled;
 		
 		struct ItemSprites
 		{
@@ -70,7 +84,7 @@ class Dropdown : public SFMLObject
 	
 	void init() override;
 	
-	Dropdown(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent, std::string objectFileName) :
+	List(std::string objectType, sf::RenderWindow& window, int &xOrigin, int &yOrigin, int x, int y, int width, int height, int (*hoverEnterFunction)(SFMLObject *object), int (*hoverLeaveFunction)(SFMLObject *object), int (*clickDownFunction)(SFMLObject *object), int (*clickUpFunction)(SFMLObject *object), UI *parent, std::string objectFileName) :
 		SFMLObject(objectType, window, xOrigin, yOrigin, x, y, width, height, hoverEnterFunction, hoverLeaveFunction, clickDownFunction, clickUpFunction, parent, objectFileName) {}
 };
 	
