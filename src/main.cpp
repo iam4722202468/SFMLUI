@@ -24,10 +24,15 @@ int enableCheese(SFMLObject *object)
 
 int main(int argc, char *argv[])
 {
-	int windowX = 1200;
-	int windowY = 600;
+	int windowX = 2400;
+	int windowY = 1200;
+	
+	float scale = 1;
 	
 	sf::RenderWindow window(sf::VideoMode(windowX, windowY), "SFML window");
+	
+	sf::View view;
+	view.setViewport(sf::FloatRect(0.f, 0.f, scale, scale*windowX/windowY));
 	
 	sf::Clock clock;
 	
@@ -111,8 +116,10 @@ int main(int argc, char *argv[])
 		
 		while(window.pollEvent(event))
 		{
-			int mouseX = (int)(sf::Mouse::getPosition(window).x*((float)windowX)/window.getSize().x);
-			int mouseY = (int)(sf::Mouse::getPosition(window).y*((float)windowY)/window.getSize().y);
+			sf::Vector2f mouse_pos = window.mapPixelToCoords(sf::Mouse::getPosition(window));
+			
+			int mouseX = (int)((mouse_pos.x*((float)windowX)/window.getSize().x));
+			int mouseY = (int)((mouse_pos.y*((float)windowY)/window.getSize().y));
 			
 			// Close window : exit
 			if(event.type == sf::Event::Closed)
@@ -154,6 +161,7 @@ int main(int argc, char *argv[])
 		}
 		
 		window.clear(sf::Color::Green);
+		window.setView(view);
 		
 		for(int place = UIVector.size()-1; place >= 0; place--)
 			UIVector.at(place)->draw();

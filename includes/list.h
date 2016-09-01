@@ -23,6 +23,13 @@ class List : public SFMLObject
 	
 	public:
 	
+	struct ObjectSprites
+	{
+		sf::Sprite left;
+		sf::Sprite right;
+		sf::Sprite middle;
+	};
+	
 	struct SheetInfo
 	{
 		struct Left	{int width,height;} left;
@@ -35,36 +42,10 @@ class List : public SFMLObject
 	
 	struct ListSprites
 	{
-		sf::Sprite buttonUp;
-		sf::Sprite buttonDown;
-		
-		struct Nothing
-		{
-			sf::Sprite left;
-			sf::Sprite top;
-			sf::Sprite corner;
-		} nothing;
-		
-		struct Hover
-		{
-			sf::Sprite left;
-			sf::Sprite top;
-			sf::Sprite corner;
-		} hover;
-		
-		struct Click
-		{
-			sf::Sprite left;
-			sf::Sprite top;
-			sf::Sprite corner;
-		} click;
-		
-		struct Disabled
-		{
-			sf::Sprite left;
-			sf::Sprite top;
-			sf::Sprite corner;
-		} disabled;
+		ObjectSprites nothing;
+		ObjectSprites hover;
+		ObjectSprites click;
+		ObjectSprites disabled;
 		
 		struct ItemSprites
 		{
@@ -77,7 +58,6 @@ class List : public SFMLObject
 		} itemSprites;
 	} dropdownSprites;
 	
-	bool dropdown = false;
 	void draw();
 	void addItem(std::string);
 	bool checkmouse(int mouseX, int mouseY, bool mouseStatus);
